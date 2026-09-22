@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.86" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BankTask.Application\BankTask.Application.csproj" />
+    <ProjectReference Include="..\BankTask.DBManager\BankTask.DBManager.csproj" />
+    <ProjectReference Include="..\BankTask.Domain\BankTask.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
