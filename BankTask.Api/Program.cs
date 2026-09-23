@@ -1,3 +1,6 @@
+using BankTask.Application.Interfaces.Repositories;
+using BankTask.Application.Interfaces.Services;
+using BankTask.Application.Services;
 using BankTask.DBManager;
 using BankTask.Infrastructure.Repositories;
 
@@ -14,20 +17,20 @@ var postgreSqlConnectionString =
     ?? throw new InvalidOperationException(
         "PostgreSQL connection string not found.");
 
-// Create Connection Factory
 var connectionFactory = new ConnectionFactory(
     sqlServerConnectionString,
     postgreSqlConnectionString);
 
 builder.Services.AddSingleton<IConnectionFactory>(connectionFactory);
 
-
-
 // Repositories
-builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<AccountRepository>();
 builder.Services.AddScoped<TransactionRepository>();
 builder.Services.AddScoped<AuditLogRepository>();
+
+// Services
+builder.Services.AddScoped<IUserService, UserService>();
 
 // Controllers
 builder.Services.AddControllers();
@@ -36,7 +39,6 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// HTTP Request Pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -44,9 +46,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
