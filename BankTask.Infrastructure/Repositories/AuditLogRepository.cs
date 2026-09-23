@@ -7,11 +7,11 @@ namespace BankTask.Infrastructure.Repositories;
 
 public class AuditLogRepository : IAuditLogRepository
 {
-    private readonly PostgreSqlDbManager _dbManager;
+    private readonly IConnectionFactory _connectionFactory;
 
-    public AuditLogRepository(PostgreSqlDbManager dbManager)
+    public AuditLogRepository(IConnectionFactory connectionFactory)
     {
-        _dbManager = dbManager;
+        _connectionFactory = connectionFactory;
     }
 
     public async Task<AuditLog?> GetByIdAsync(Guid id)
@@ -32,7 +32,10 @@ public class AuditLogRepository : IAuditLogRepository
             WHERE id = @Id;
             """;
 
-        using var connection = _dbManager.CreateConnection();
+        using var connection =
+            _connectionFactory.CreateConnection(DatabaseType.PostgreSQL);
+
+        await connection.OpenAsync();
 
         return await connection.QuerySingleOrDefaultAsync<AuditLog>(
             sql,

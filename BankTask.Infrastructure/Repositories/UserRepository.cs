@@ -7,11 +7,11 @@ namespace BankTask.Infrastructure.Repositories;
 
 public class UserRepository : IUserRepository
 {
-    private readonly SqlServerDbManager _dbManager;
+    private readonly IConnectionFactory _connectionFactory;
 
-    public UserRepository(SqlServerDbManager dbManager)
+    public UserRepository(IConnectionFactory connectionFactory)
     {
-        _dbManager = dbManager;
+        _connectionFactory = connectionFactory;
     }
 
     public async Task<User?> GetByIdAsync(Guid id)
@@ -28,7 +28,10 @@ public class UserRepository : IUserRepository
             WHERE Id = @Id;
             """;
 
-        using var connection = _dbManager.CreateConnection();
+        using var connection =
+            _connectionFactory.CreateConnection(DatabaseType.SqlServer);
+
+        await connection.OpenAsync();
 
         return await connection.QuerySingleOrDefaultAsync<User>(
             sql,
