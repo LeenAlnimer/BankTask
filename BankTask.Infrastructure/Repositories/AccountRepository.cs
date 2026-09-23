@@ -1,10 +1,11 @@
-﻿using BankTask.DBManager;
+﻿using BankTask.Application.Interfaces.Repositories;
+using BankTask.DBManager;
 using BankTask.Domain.Entities;
 using Dapper;
 
 namespace BankTask.Infrastructure.Repositories;
 
-public class AccountRepository
+public class AccountRepository : IAccountRepository
 {
     private readonly SqlServerDbManager _dbManager;
 

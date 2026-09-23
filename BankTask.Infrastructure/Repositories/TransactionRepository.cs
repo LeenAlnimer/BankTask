@@ -1,10 +1,11 @@
-﻿using BankTask.DBManager;
+﻿using BankTask.Application.Interfaces.Repositories;
+using BankTask.DBManager;
 using BankTask.Domain.Entities;
 using Dapper;
 
 namespace BankTask.Infrastructure.Repositories;
 
-public class TransactionRepository
+public class TransactionRepository : ITransactionRepository
 {
     private readonly PostgreSqlDbManager _dbManager;
 

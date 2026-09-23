@@ -1,10 +1,11 @@
-﻿using BankTask.DBManager;
+﻿using BankTask.Application.Interfaces.Repositories;
+using BankTask.DBManager;
 using BankTask.Domain.Entities;
 using Dapper;
 
 namespace BankTask.Infrastructure.Repositories;
 
-public class AuditLogRepository
+public class AuditLogRepository : IAuditLogRepository
 {
     private readonly PostgreSqlDbManager _dbManager;
 
