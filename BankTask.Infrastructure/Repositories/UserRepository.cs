@@ -1,16 +1,17 @@
-﻿using BankTask.DBManager;
+﻿using BankTask.Application.Interfaces.Repositories;
+using BankTask.DBManager;
 using BankTask.Domain.Entities;
 using Dapper;
 
 namespace BankTask.Infrastructure.Repositories;
 
-public class UserRepository
+public class UserRepository : IUserRepository
 {
-    private readonly SqlServerDbManager _dbManager;
+    private readonly IConnectionFactory _connectionFactory;
 
-    public UserRepository(SqlServerDbManager dbManager)
+    public UserRepository(IConnectionFactory connectionFactory)
     {
-        _dbManager = dbManager;
+        _connectionFactory = connectionFactory;
     }
 
     public async Task<User?> GetByIdAsync(Guid id)
@@ -27,7 +28,10 @@ public class UserRepository
             WHERE Id = @Id;
             """;
 
-        using var connection = _dbManager.CreateConnection();
+        using var connection =
+            _connectionFactory.CreateConnection(DatabaseType.SqlServer);
+
+        await connection.OpenAsync();
 
         return await connection.QuerySingleOrDefaultAsync<User>(
             sql,

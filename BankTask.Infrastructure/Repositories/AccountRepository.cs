@@ -1,16 +1,17 @@
-﻿using BankTask.DBManager;
+﻿using BankTask.Application.Interfaces.Repositories;
+using BankTask.DBManager;
 using BankTask.Domain.Entities;
 using Dapper;
 
 namespace BankTask.Infrastructure.Repositories;
 
-public class AccountRepository
+public class AccountRepository : IAccountRepository
 {
-    private readonly SqlServerDbManager _dbManager;
+    private readonly IConnectionFactory _connectionFactory;
 
-    public AccountRepository(SqlServerDbManager dbManager)
+    public AccountRepository(IConnectionFactory connectionFactory)
     {
-        _dbManager = dbManager;
+        _connectionFactory = connectionFactory;
     }
 
     public async Task<Account?> GetByIdAsync(Guid id)
@@ -30,7 +31,10 @@ public class AccountRepository
             WHERE Id = @Id;
             """;
 
-        using var connection = _dbManager.CreateConnection();
+        using var connection =
+            _connectionFactory.CreateConnection(DatabaseType.SqlServer);
+
+        await connection.OpenAsync();
 
         return await connection.QuerySingleOrDefaultAsync<Account>(
             sql,

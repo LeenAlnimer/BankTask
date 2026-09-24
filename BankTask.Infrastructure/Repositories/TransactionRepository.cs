@@ -1,16 +1,17 @@
-﻿using BankTask.DBManager;
+﻿using BankTask.Application.Interfaces.Repositories;
+using BankTask.DBManager;
 using BankTask.Domain.Entities;
 using Dapper;
 
 namespace BankTask.Infrastructure.Repositories;
 
-public class TransactionRepository
+public class TransactionRepository : ITransactionRepository
 {
-    private readonly PostgreSqlDbManager _dbManager;
+    private readonly IConnectionFactory _connectionFactory;
 
-    public TransactionRepository(PostgreSqlDbManager dbManager)
+    public TransactionRepository(IConnectionFactory connectionFactory)
     {
-        _dbManager = dbManager;
+        _connectionFactory = connectionFactory;
     }
 
     public async Task<Transaction?> GetByIdAsync(Guid id)
@@ -31,7 +32,10 @@ public class TransactionRepository
             WHERE id = @Id;
             """;
 
-        using var connection = _dbManager.CreateConnection();
+        using var connection =
+            _connectionFactory.CreateConnection(DatabaseType.PostgreSQL);
+
+        await connection.OpenAsync();
 
         return await connection.QuerySingleOrDefaultAsync<Transaction>(
             sql,

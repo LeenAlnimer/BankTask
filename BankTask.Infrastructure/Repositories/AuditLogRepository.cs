@@ -1,16 +1,17 @@
-﻿using BankTask.DBManager;
+﻿using BankTask.Application.Interfaces.Repositories;
+using BankTask.DBManager;
 using BankTask.Domain.Entities;
 using Dapper;
 
 namespace BankTask.Infrastructure.Repositories;
 
-public class AuditLogRepository
+public class AuditLogRepository : IAuditLogRepository
 {
-    private readonly PostgreSqlDbManager _dbManager;
+    private readonly IConnectionFactory _connectionFactory;
 
-    public AuditLogRepository(PostgreSqlDbManager dbManager)
+    public AuditLogRepository(IConnectionFactory connectionFactory)
     {
-        _dbManager = dbManager;
+        _connectionFactory = connectionFactory;
     }
 
     public async Task<AuditLog?> GetByIdAsync(Guid id)
@@ -31,7 +32,10 @@ public class AuditLogRepository
             WHERE id = @Id;
             """;
 
-        using var connection = _dbManager.CreateConnection();
+        using var connection =
+            _connectionFactory.CreateConnection(DatabaseType.PostgreSQL);
+
+        await connection.OpenAsync();
 
         return await connection.QuerySingleOrDefaultAsync<AuditLog>(
             sql,

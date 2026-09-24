@@ -14,20 +14,14 @@ var postgreSqlConnectionString =
     ?? throw new InvalidOperationException(
         "PostgreSQL connection string not found.");
 
-// Create DB Managers using Factory
-var sqlServerDbManager =
-    (SqlServerDbManager)DbManagerFactory.Create(
-        "sqlserver",
-        sqlServerConnectionString);
+// Create Connection Factory
+var connectionFactory = new ConnectionFactory(
+    sqlServerConnectionString,
+    postgreSqlConnectionString);
 
-var postgreSqlDbManager =
-    (PostgreSqlDbManager)DbManagerFactory.Create(
-        "postgresql",
-        postgreSqlConnectionString);
+builder.Services.AddSingleton<IConnectionFactory>(connectionFactory);
 
-// Dependency Injection
-builder.Services.AddSingleton(sqlServerDbManager);
-builder.Services.AddSingleton(postgreSqlDbManager);
+
 
 // Repositories
 builder.Services.AddScoped<UserRepository>();
