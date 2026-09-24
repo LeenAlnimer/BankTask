@@ -1,8 +1,8 @@
 ﻿using BankTask.Domain.Enums;
 
-namespace BankTask.Domain.Entities;
+namespace BankTask.Application.DTOs.Accounts;
 
-public class Account
+public class AccountResponse
 {
     public Guid Id { get; set; }
 
