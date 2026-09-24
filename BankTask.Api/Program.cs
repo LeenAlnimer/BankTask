@@ -25,12 +25,13 @@ builder.Services.AddSingleton<IConnectionFactory>(connectionFactory);
 
 // Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<AccountRepository>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<TransactionRepository>();
 builder.Services.AddScoped<AuditLogRepository>();
 
 // Services
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
 
 // Controllers
 builder.Services.AddControllers();
