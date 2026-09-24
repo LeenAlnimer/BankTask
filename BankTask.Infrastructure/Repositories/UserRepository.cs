@@ -1,4 +1,5 @@
-﻿using BankTask.Application.Interfaces.Repositories;
+﻿using System.Data;
+using BankTask.Application.Interfaces.Repositories;
 using BankTask.DBManager;
 using BankTask.Domain.Entities;
 using Dapper;
@@ -16,142 +17,97 @@ public class UserRepository : IUserRepository
 
     public async Task<User?> GetByIdAsync(Guid id)
     {
-        const string sql = """
-            SELECT
-                Id,
-                FullName,
-                Email,
-                CreatedAt,
-                UpdatedAt
-            FROM Users
-            WHERE Id = @Id;
-            """;
-
         using var connection =
             _connectionFactory.CreateConnection(DatabaseType.SqlServer);
 
         await connection.OpenAsync();
 
         return await connection.QuerySingleOrDefaultAsync<User>(
-            sql,
-            new { Id = id });
+            "GetUserById",
+            new { Id = id },
+            commandType: CommandType.StoredProcedure);
     }
 
     public async Task<User?> GetByEmailAsync(string email)
     {
-        const string sql = """
-            SELECT
-                Id,
-                FullName,
-                Email,
-                PasswordHash,
-                CreatedAt,
-                UpdatedAt
-            FROM Users
-            WHERE Email = @Email;
-            """;
-
         using var connection =
             _connectionFactory.CreateConnection(DatabaseType.SqlServer);
 
         await connection.OpenAsync();
 
         return await connection.QuerySingleOrDefaultAsync<User>(
-            sql,
-            new { Email = email });
+            "GetUserByEmail",
+            new { Email = email },
+            commandType: CommandType.StoredProcedure);
     }
 
     public async Task<IEnumerable<User>> GetAllAsync()
     {
-        const string sql = """
-            SELECT
-                Id,
-                FullName,
-                Email,
-                CreatedAt,
-                UpdatedAt
-            FROM Users;
-            """;
-
         using var connection =
             _connectionFactory.CreateConnection(DatabaseType.SqlServer);
 
         await connection.OpenAsync();
 
-        return await connection.QueryAsync<User>(sql);
+        return await connection.QueryAsync<User>(
+            "GetAllUsers",
+            commandType: CommandType.StoredProcedure);
     }
 
     public async Task<User> CreateAsync(User user)
     {
-        const string sql = """
-            INSERT INTO Users
-            (
-                Id,
-                FullName,
-                Email,
-                PasswordHash,
-                CreatedAt,
-                UpdatedAt
-            )
-            VALUES
-            (
-                @Id,
-                @FullName,
-                @Email,
-                @PasswordHash,
-                @CreatedAt,
-                @UpdatedAt
-            );
-            """;
-
         using var connection =
             _connectionFactory.CreateConnection(DatabaseType.SqlServer);
 
         await connection.OpenAsync();
 
-        await connection.ExecuteAsync(sql, user);
+        await connection.ExecuteAsync(
+            "CreateUser",
+            new
+            {
+                user.Id,
+                user.FullName,
+                user.Email,
+                user.PasswordHash,
+                user.CreatedAt,
+                user.UpdatedAt
+            },
+            commandType: CommandType.StoredProcedure);
 
         return user;
     }
 
     public async Task<bool> UpdateAsync(User user)
     {
-        const string sql = """
-            UPDATE Users
-            SET
-                FullName = @FullName,
-                Email = @Email,
-                UpdatedAt = @UpdatedAt
-            WHERE Id = @Id;
-            """;
-
         using var connection =
             _connectionFactory.CreateConnection(DatabaseType.SqlServer);
 
         await connection.OpenAsync();
 
-        var rowsAffected = await connection.ExecuteAsync(
-            sql,
-            user);
+        var rowsAffected = await connection.QuerySingleAsync<int>(
+            "UpdateUser",
+            new
+            {
+                user.Id,
+                user.FullName,
+                user.Email,
+                user.UpdatedAt
+            },
+            commandType: CommandType.StoredProcedure);
 
         return rowsAffected == 1;
     }
 
     public async Task<bool> DeleteAsync(Guid id)
     {
-        const string sql = """
-            DELETE FROM Users
-            WHERE Id = @Id;
-            """;
-
         using var connection =
             _connectionFactory.CreateConnection(DatabaseType.SqlServer);
 
         await connection.OpenAsync();
 
-        var rowsAffected = await connection.ExecuteAsync(
-            sql,
-            new { Id = id });
+        var rowsAffected = await connection.QuerySingleAsync<int>(
+            "DeleteUser",
+            new { Id = id },
+            commandType: CommandType.StoredProcedure);
 
         return rowsAffected == 1;
     }
