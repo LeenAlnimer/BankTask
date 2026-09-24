@@ -1,4 +1,5 @@
-﻿using BankTask.Application.Interfaces.Repositories;
+﻿using System.Data;
+using BankTask.Application.Interfaces.Repositories;
 using BankTask.DBManager;
 using BankTask.Domain.Entities;
 using Dapper;
@@ -16,28 +17,88 @@ public class AccountRepository : IAccountRepository
 
     public async Task<Account?> GetByIdAsync(Guid id)
     {
-        const string sql = """
-            SELECT
-                Id,
-                UserId,
-                AccountNumber,
-                Balance,
-                Currency,
-                Status,
-                AccountType,
-                CreatedAt,
-                UpdatedAt
-            FROM Accounts
-            WHERE Id = @Id;
-            """;
-
         using var connection =
             _connectionFactory.CreateConnection(DatabaseType.SqlServer);
 
         await connection.OpenAsync();
 
         return await connection.QuerySingleOrDefaultAsync<Account>(
-            sql,
-            new { Id = id });
+            "GetAccountById",
+            new { Id = id },
+            commandType: CommandType.StoredProcedure);
+    }
+
+    public async Task<IEnumerable<Account>> GetAllAsync()
+    {
+        using var connection =
+            _connectionFactory.CreateConnection(DatabaseType.SqlServer);
+
+        await connection.OpenAsync();
+
+        return await connection.QueryAsync<Account>(
+            "GetAllAccounts",
+            commandType: CommandType.StoredProcedure);
+    }
+
+    public async Task<string> GetNextAccountNumberAsync()
+    {
+        using var connection =
+            _connectionFactory.CreateConnection(DatabaseType.SqlServer);
+
+        await connection.OpenAsync();
+
+        var accountNumber =
+            await connection.QuerySingleAsync<long>(
+                "GetNextAccountNumber",
+                commandType: CommandType.StoredProcedure);
+
+        return accountNumber.ToString();
+    }
+
+    public async Task<Account> CreateAsync(Account account)
+    {
+        using var connection =
+            _connectionFactory.CreateConnection(DatabaseType.SqlServer);
+
+        await connection.OpenAsync();
+
+        await connection.ExecuteAsync(
+            "CreateAccount",
+            new
+            {
+                account.Id,
+                account.UserId,
+                account.AccountNumber,
+                account.Balance,
+                account.Currency,
+                account.Status,
+                account.AccountType,
+                account.CreatedAt,
+                account.UpdatedAt
+            },
+            commandType: CommandType.StoredProcedure);
+
+        return account;
+    }
+
+    public async Task<bool> UpdateAsync(Account account)
+    {
+        using var connection =
+            _connectionFactory.CreateConnection(DatabaseType.SqlServer);
+
+        await connection.OpenAsync();
+
+        var rowsAffected =
+            await connection.QuerySingleAsync<int>(
+                "UpdateAccount",
+                new
+                {
+                    account.Id,
+                    account.Status,
+                    account.UpdatedAt
+                },
+                commandType: CommandType.StoredProcedure);
+
+        return rowsAffected == 1;
     }
 }

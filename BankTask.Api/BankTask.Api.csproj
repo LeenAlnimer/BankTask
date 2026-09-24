@@ -12,10 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\BankTask.Application\BankTask.Application.csproj" />
     <ProjectReference Include="..\BankTask.Authentication\BankTask.Authentication.csproj" />
     <ProjectReference Include="..\BankTask.DBManager\BankTask.DBManager.csproj" />
