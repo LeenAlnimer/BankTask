@@ -1,6 +1,7 @@
 ﻿using BankTask.Application.DTOs.Accounts;
 using BankTask.Application.Interfaces.Repositories;
 using BankTask.Application.Interfaces.Services;
+using BankTask.Application.Mappers;
 using BankTask.Domain.Entities;
 using BankTask.Domain.Enums;
 
@@ -24,14 +25,14 @@ public class AccountService : IAccountService
             return null;
         }
 
-        return MapToResponse(account);
+        return AccountMapper.ToResponse(account);
     }
 
     public async Task<IEnumerable<AccountResponse>> GetAllAsync()
     {
         var accounts = await _accountRepository.GetAllAsync();
 
-        return accounts.Select(MapToResponse);
+        return accounts.Select(AccountMapper.ToResponse);
     }
 
     public async Task<AccountResponse> CreateAsync(
@@ -56,7 +57,7 @@ public class AccountService : IAccountService
         var createdAccount =
             await _accountRepository.CreateAsync(account);
 
-        return MapToResponse(createdAccount);
+        return AccountMapper.ToResponse(createdAccount);
     }
 
     public async Task<bool> UpdateAsync(
@@ -93,22 +94,5 @@ public class AccountService : IAccountService
 
         return await _accountRepository.UpdateAsync(
             existingAccount);
-    }
-
-    private static AccountResponse MapToResponse(
-        Account account)
-    {
-        return new AccountResponse
-        {
-            Id = account.Id,
-            UserId = account.UserId,
-            AccountNumber = account.AccountNumber,
-            Balance = account.Balance,
-            Currency = account.Currency,
-            Status = account.Status,
-            AccountType = account.AccountType,
-            CreatedAt = account.CreatedAt,
-            UpdatedAt = account.UpdatedAt
-        };
     }
 }
