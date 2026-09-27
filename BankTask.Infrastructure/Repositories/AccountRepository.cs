@@ -10,46 +10,46 @@ public class AccountRepository : IAccountRepository
 {
     private readonly IConnectionFactory _connectionFactory;
 
+    private const string GetByIdSp = "GetAccountById";
+    private const string GetAllSp = "GetAllAccounts";
+    private const string GetNextAccountNumberSp = "GetNextAccountNumber";
+    private const string CreateSp = "CreateAccount";
+    private const string UpdateSp = "UpdateAccount";
+
     public AccountRepository(IConnectionFactory connectionFactory)
     {
         _connectionFactory = connectionFactory;
     }
 
+    private IDbConnection CreateConnection() =>
+        _connectionFactory.CreateConnection(DatabaseType.SqlServer);
+
     public async Task<Account?> GetByIdAsync(Guid id)
     {
-        using var connection =
-            _connectionFactory.CreateConnection(DatabaseType.SqlServer);
-
-        await connection.OpenAsync();
+        using var connection = CreateConnection();
 
         return await connection.QuerySingleOrDefaultAsync<Account>(
-            "GetAccountById",
+            GetByIdSp,
             new { Id = id },
             commandType: CommandType.StoredProcedure);
     }
 
     public async Task<IEnumerable<Account>> GetAllAsync()
     {
-        using var connection =
-            _connectionFactory.CreateConnection(DatabaseType.SqlServer);
-
-        await connection.OpenAsync();
+        using var connection = CreateConnection();
 
         return await connection.QueryAsync<Account>(
-            "GetAllAccounts",
+            GetAllSp,
             commandType: CommandType.StoredProcedure);
     }
 
     public async Task<string> GetNextAccountNumberAsync()
     {
-        using var connection =
-            _connectionFactory.CreateConnection(DatabaseType.SqlServer);
-
-        await connection.OpenAsync();
+        using var connection = CreateConnection();
 
         var accountNumber =
             await connection.QuerySingleAsync<long>(
-                "GetNextAccountNumber",
+                GetNextAccountNumberSp,
                 commandType: CommandType.StoredProcedure);
 
         return accountNumber.ToString();
@@ -57,13 +57,10 @@ public class AccountRepository : IAccountRepository
 
     public async Task<Account> CreateAsync(Account account)
     {
-        using var connection =
-            _connectionFactory.CreateConnection(DatabaseType.SqlServer);
+        using var connection = CreateConnection();
 
-        await connection.OpenAsync();
-
-        await connection.ExecuteAsync(
-            "CreateAccount",
+        return await connection.QuerySingleAsync<Account>(
+            CreateSp,
             new
             {
                 account.Id,
@@ -77,20 +74,15 @@ public class AccountRepository : IAccountRepository
                 account.UpdatedAt
             },
             commandType: CommandType.StoredProcedure);
-
-        return account;
     }
 
     public async Task<bool> UpdateAsync(Account account)
     {
-        using var connection =
-            _connectionFactory.CreateConnection(DatabaseType.SqlServer);
-
-        await connection.OpenAsync();
+        using var connection = CreateConnection();
 
         var rowsAffected =
             await connection.QuerySingleAsync<int>(
-                "UpdateAccount",
+                UpdateSp,
                 new
                 {
                     account.Id,
