@@ -17,7 +17,17 @@ public class TransactionRepository : ITransactionRepository
     public async Task<Transaction?> GetByIdAsync(Guid id)
     {
         const string sql = """
-            SELECT *
+            SELECT
+                id AS Id,
+                event_id AS EventId,
+                source_account_id AS SourceAccountId,
+                destination_account_id AS DestinationAccountId,
+                transaction_type AS TransactionType,
+                amount AS Amount,
+                currency AS Currency,
+                reference_number AS ReferenceNumber,
+                description AS Description,
+                created_at AS CreatedAt
             FROM get_transaction_by_id(@Id);
             """;
 
@@ -34,7 +44,17 @@ public class TransactionRepository : ITransactionRepository
     public async Task<IEnumerable<Transaction>> GetAllAsync()
     {
         const string sql = """
-            SELECT *
+            SELECT
+                id AS Id,
+                event_id AS EventId,
+                source_account_id AS SourceAccountId,
+                destination_account_id AS DestinationAccountId,
+                transaction_type AS TransactionType,
+                amount AS Amount,
+                currency AS Currency,
+                reference_number AS ReferenceNumber,
+                description AS Description,
+                created_at AS CreatedAt
             FROM get_all_transactions();
             """;
 
