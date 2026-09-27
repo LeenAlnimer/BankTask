@@ -1,6 +1,7 @@
 ﻿using BankTask.Application.DTOs.Transactions;
 using BankTask.Application.Interfaces.Repositories;
 using BankTask.Application.Interfaces.Services;
+using BankTask.Application.Mappers;
 using BankTask.Domain.Entities;
 
 namespace BankTask.Application.Services;
@@ -9,28 +10,31 @@ public class TransactionService : ITransactionService
 {
     private readonly ITransactionRepository _transactionRepository;
 
-    public TransactionService(ITransactionRepository transactionRepository)
+    public TransactionService(
+        ITransactionRepository transactionRepository)
     {
         _transactionRepository = transactionRepository;
     }
 
     public async Task<TransactionResponse?> GetByIdAsync(Guid id)
     {
-        var transaction = await _transactionRepository.GetByIdAsync(id);
+        var transaction =
+            await _transactionRepository.GetByIdAsync(id);
 
         if (transaction is null)
         {
             return null;
         }
 
-        return MapToResponse(transaction);
+        return TransactionMapper.ToResponse(transaction);
     }
 
     public async Task<IEnumerable<TransactionResponse>> GetAllAsync()
     {
-        var transactions = await _transactionRepository.GetAllAsync();
+        var transactions =
+            await _transactionRepository.GetAllAsync();
 
-        return transactions.Select(MapToResponse);
+        return transactions.Select(TransactionMapper.ToResponse);
     }
 
     public async Task<TransactionResponse> CreateAsync(
@@ -61,7 +65,7 @@ public class TransactionService : ITransactionService
         var createdTransaction =
             await _transactionRepository.CreateAsync(transaction);
 
-        return MapToResponse(createdTransaction);
+        return TransactionMapper.ToResponse(createdTransaction);
     }
 
     private static void ValidateTransaction(
@@ -130,24 +134,5 @@ public class TransactionService : ITransactionService
     private static string GenerateReferenceNumber()
     {
         return $"TX-{Guid.NewGuid():N}";
-    }
-
-    private static TransactionResponse MapToResponse(
-        Transaction transaction)
-    {
-        return new TransactionResponse
-        {
-            Id = transaction.Id,
-            EventId = transaction.EventId,
-            SourceAccountId = transaction.SourceAccountId,
-            DestinationAccountId = transaction.DestinationAccountId,
-            TransactionType =
-                (Domain.Enums.TransactionType)transaction.TransactionType,
-            Amount = transaction.Amount,
-            Currency = transaction.Currency,
-            ReferenceNumber = transaction.ReferenceNumber,
-            Description = transaction.Description,
-            CreatedAt = transaction.CreatedAt
-        };
     }
 }
