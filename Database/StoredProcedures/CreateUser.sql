@@ -27,4 +27,14 @@ BEGIN
         @CreatedAt,
         @UpdatedAt
     );
+
+    SELECT
+        Id,
+        FullName,
+        Email,
+        PasswordHash,
+        CreatedAt,
+        UpdatedAt
+    FROM Users
+    WHERE Id = @Id;
 END;

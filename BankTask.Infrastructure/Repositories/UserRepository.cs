@@ -10,58 +10,56 @@ public class UserRepository : IUserRepository
 {
     private readonly IConnectionFactory _connectionFactory;
 
+    private const string GetByIdSp = "GetUserById";
+    private const string GetByEmailSp = "GetUserByEmail";
+    private const string GetAllSp = "GetAllUsers";
+    private const string CreateSp = "CreateUser";
+    private const string UpdateSp = "UpdateUser";
+    private const string DeleteSp = "DeleteUser";
+
     public UserRepository(IConnectionFactory connectionFactory)
     {
         _connectionFactory = connectionFactory;
     }
 
+    private IDbConnection CreateConnection() =>
+        _connectionFactory.CreateConnection(DatabaseType.SqlServer);
+
     public async Task<User?> GetByIdAsync(Guid id)
     {
-        using var connection =
-            _connectionFactory.CreateConnection(DatabaseType.SqlServer);
-
-        await connection.OpenAsync();
+        using var connection = CreateConnection();
 
         return await connection.QuerySingleOrDefaultAsync<User>(
-            "GetUserById",
+            GetByIdSp,
             new { Id = id },
             commandType: CommandType.StoredProcedure);
     }
 
     public async Task<User?> GetByEmailAsync(string email)
     {
-        using var connection =
-            _connectionFactory.CreateConnection(DatabaseType.SqlServer);
-
-        await connection.OpenAsync();
+        using var connection = CreateConnection();
 
         return await connection.QuerySingleOrDefaultAsync<User>(
-            "GetUserByEmail",
+            GetByEmailSp,
             new { Email = email },
             commandType: CommandType.StoredProcedure);
     }
 
     public async Task<IEnumerable<User>> GetAllAsync()
     {
-        using var connection =
-            _connectionFactory.CreateConnection(DatabaseType.SqlServer);
-
-        await connection.OpenAsync();
+        using var connection = CreateConnection();
 
         return await connection.QueryAsync<User>(
-            "GetAllUsers",
+            GetAllSp,
             commandType: CommandType.StoredProcedure);
     }
 
     public async Task<User> CreateAsync(User user)
     {
-        using var connection =
-            _connectionFactory.CreateConnection(DatabaseType.SqlServer);
+        using var connection = CreateConnection();
 
-        await connection.OpenAsync();
-
-        await connection.ExecuteAsync(
-            "CreateUser",
+        return await connection.QuerySingleAsync<User>(
+            CreateSp,
             new
             {
                 user.Id,
@@ -72,19 +70,14 @@ public class UserRepository : IUserRepository
                 user.UpdatedAt
             },
             commandType: CommandType.StoredProcedure);
-
-        return user;
     }
 
     public async Task<bool> UpdateAsync(User user)
     {
-        using var connection =
-            _connectionFactory.CreateConnection(DatabaseType.SqlServer);
-
-        await connection.OpenAsync();
+        using var connection = CreateConnection();
 
         var rowsAffected = await connection.QuerySingleAsync<int>(
-            "UpdateUser",
+            UpdateSp,
             new
             {
                 user.Id,
@@ -99,13 +92,10 @@ public class UserRepository : IUserRepository
 
     public async Task<bool> DeleteAsync(Guid id)
     {
-        using var connection =
-            _connectionFactory.CreateConnection(DatabaseType.SqlServer);
-
-        await connection.OpenAsync();
+        using var connection = CreateConnection();
 
         var rowsAffected = await connection.QuerySingleAsync<int>(
-            "DeleteUser",
+            DeleteSp,
             new { Id = id },
             commandType: CommandType.StoredProcedure);
 
