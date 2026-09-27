@@ -9,7 +9,6 @@ public class PasswordHasher : IPasswordHasher
     private const int HashSize = 32;
 
     private const int CurrentIterations = 100_000;
-    private const int LegacyIterations = 100_000;
 
     public string Hash(string password)
     {
@@ -38,12 +37,6 @@ public class PasswordHasher : IPasswordHasher
             iterations = int.Parse(parts[0]);
             saltPart = parts[1];
             hashPart = parts[2];
-        }
-        else if (parts.Length == 2)
-        {
-            iterations = LegacyIterations;
-            saltPart = parts[0];
-            hashPart = parts[1];
         }
         else
         {
