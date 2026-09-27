@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using BankTask.Application.Interfaces.Services;
 using BankTask.Domain.Entities;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace BankTask.Authentication;
@@ -11,16 +12,18 @@ public class JwtService : IJwtService
 {
     private readonly JwtOptions _options;
 
-    public JwtService(JwtOptions options)
+    public JwtService(IOptions<JwtOptions> options)
     {
-        if (string.IsNullOrWhiteSpace(options.SecretKey))
+        var jwtOptions = options.Value;
+
+        if (string.IsNullOrWhiteSpace(jwtOptions.SecretKey))
         {
             throw new ArgumentException(
                 "JWT secret key cannot be empty.",
-                nameof(options.SecretKey));
+                nameof(jwtOptions.SecretKey));
         }
 
-        _options = options;
+        _options = jwtOptions;
     }
 
     public string GenerateToken(User user)
