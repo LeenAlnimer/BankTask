@@ -9,27 +9,18 @@ namespace BankTask.Authentication;
 
 public class JwtService : IJwtService
 {
-    private const int TokenExpirationHours = 1;
+    private readonly JwtOptions _options;
 
-    private readonly string _secretKey;
-    private readonly string _issuer;
-    private readonly string _audience;
-
-    public JwtService(
-        string secretKey,
-        string issuer,
-        string audience)
+    public JwtService(JwtOptions options)
     {
-        if (string.IsNullOrWhiteSpace(secretKey))
+        if (string.IsNullOrWhiteSpace(options.SecretKey))
         {
             throw new ArgumentException(
                 "JWT secret key cannot be empty.",
-                nameof(secretKey));
+                nameof(options.SecretKey));
         }
 
-        _secretKey = secretKey;
-        _issuer = issuer;
-        _audience = audience;
+        _options = options;
     }
 
     public string GenerateToken(User user)
@@ -46,18 +37,18 @@ public class JwtService : IJwtService
         };
 
         var key = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(_secretKey));
+            Encoding.UTF8.GetBytes(_options.SecretKey));
 
         var credentials = new SigningCredentials(
             key,
             SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
-            issuer: _issuer,
-            audience: _audience,
+            issuer: _options.Issuer,
+            audience: _options.Audience,
             claims: claims,
             expires: DateTime.UtcNow.AddHours(
-                TokenExpirationHours),
+                _options.ExpirationHours),
             signingCredentials: credentials);
 
         return new JwtSecurityTokenHandler()

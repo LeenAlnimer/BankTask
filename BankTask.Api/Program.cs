@@ -38,26 +38,21 @@ builder.Services.AddScoped<AuditLogRepository>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 
 // JWT
-var jwtSecretKey =
-    builder.Configuration["Jwt:SecretKey"]
+var jwtOptions = builder.Configuration
+    .GetSection("Jwt")
+    .Get<JwtOptions>()
     ?? throw new InvalidOperationException(
+        "JWT configuration not found.");
+
+if (string.IsNullOrWhiteSpace(jwtOptions.SecretKey))
+{
+    throw new InvalidOperationException(
         "JWT secret key not found.");
+}
 
-var jwtIssuer =
-    builder.Configuration["Jwt:Issuer"]
-    ?? throw new InvalidOperationException(
-        "JWT issuer not found.");
+builder.Services.AddSingleton(jwtOptions);
 
-var jwtAudience =
-    builder.Configuration["Jwt:Audience"]
-    ?? throw new InvalidOperationException(
-        "JWT audience not found.");
-
-builder.Services.AddScoped<IJwtService>(_ =>
-    new JwtService(
-        jwtSecretKey,
-        jwtIssuer,
-        jwtAudience));
+builder.Services.AddScoped<IJwtService, JwtService>();
 
 // JWT Authentication
 builder.Services
@@ -69,13 +64,13 @@ builder.Services
             ValidateIssuerSigningKey = true,
 
             IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(jwtSecretKey)),
+                Encoding.UTF8.GetBytes(jwtOptions.SecretKey)),
 
             ValidateIssuer = true,
-            ValidIssuer = jwtIssuer,
+            ValidIssuer = jwtOptions.Issuer,
 
             ValidateAudience = true,
-            ValidAudience = jwtAudience,
+            ValidAudience = jwtOptions.Audience,
 
             ValidateLifetime = true,
 
