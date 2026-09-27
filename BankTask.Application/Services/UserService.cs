@@ -2,6 +2,7 @@
 using BankTask.Application.DTOs.Users;
 using BankTask.Application.Interfaces.Repositories;
 using BankTask.Application.Interfaces.Services;
+using BankTask.Application.Mappers;
 using BankTask.Domain.Entities;
 
 namespace BankTask.Application.Services;
@@ -24,33 +25,20 @@ public class UserService : IUserService
             return null;
         }
 
-        return new UserResponse
-        {
-            Id = user.Id,
-            FullName = user.FullName,
-            Email = user.Email,
-            CreatedAt = user.CreatedAt,
-            UpdatedAt = user.UpdatedAt
-        };
+        return UserMapper.ToResponse(user);
     }
 
     public async Task<IEnumerable<UserResponse>> GetAllAsync()
     {
         var users = await _userRepository.GetAllAsync();
 
-        return users.Select(user => new UserResponse
-        {
-            Id = user.Id,
-            FullName = user.FullName,
-            Email = user.Email,
-            CreatedAt = user.CreatedAt,
-            UpdatedAt = user.UpdatedAt
-        });
+        return users.Select(UserMapper.ToResponse);
     }
 
     public async Task<UserResponse> CreateAsync(CreateUserRequest request)
     {
-        var existingUser = await _userRepository.GetByEmailAsync(request.Email);
+        var existingUser =
+            await _userRepository.GetByEmailAsync(request.Email);
 
         if (existingUser is not null)
         {
@@ -68,23 +56,18 @@ public class UserService : IUserService
             UpdatedAt = null
         };
 
-        var createdUser = await _userRepository.CreateAsync(user);
+        var createdUser =
+            await _userRepository.CreateAsync(user);
 
-        return new UserResponse
-        {
-            Id = createdUser.Id,
-            FullName = createdUser.FullName,
-            Email = createdUser.Email,
-            CreatedAt = createdUser.CreatedAt,
-            UpdatedAt = createdUser.UpdatedAt
-        };
+        return UserMapper.ToResponse(createdUser);
     }
 
     public async Task<bool> UpdateAsync(
         Guid id,
         UpdateUserRequest request)
     {
-        var existingUser = await _userRepository.GetByIdAsync(id);
+        var existingUser =
+            await _userRepository.GetByIdAsync(id);
 
         if (existingUser is null)
         {
@@ -100,7 +83,8 @@ public class UserService : IUserService
 
     public async Task<bool> DeleteAsync(Guid id)
     {
-        var existingUser = await _userRepository.GetByIdAsync(id);
+        var existingUser =
+            await _userRepository.GetByIdAsync(id);
 
         if (existingUser is null)
         {
