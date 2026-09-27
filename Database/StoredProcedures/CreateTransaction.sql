@@ -40,5 +40,8 @@ BEGIN
         p_description,
         p_created_at
     );
+
+    -- Return the created row
+    -- PostgreSQL procedures cannot directly return a result set with SELECT.
 END;
 $$;
