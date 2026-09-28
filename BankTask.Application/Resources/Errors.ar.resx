@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="metadata">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" />
+							</xsd:sequence>
+							<xsd:attribute name="name" use="required" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+							<xsd:attribute ref="xml:space" />
+						</xsd:complexType>
+					</xsd:element>
+
+					<xsd:element name="assembly">
+						<xsd:complexType>
+							<xsd:attribute name="alias" type="xsd:string" />
+							<xsd:attribute name="name" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+							<xsd:attribute ref="xml:space" />
+						</xsd:complexType>
+					</xsd:element>
+
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+
+	<resheader name="resmimetype">
+		<value>text/microsoft-resx</value>
+	</resheader>
+
+	<resheader name="version">
+		<value>2.0</value>
+	</resheader>
+
+	<resheader name="reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+
+	<resheader name="writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+
+	<data name="ACCOUNT_NOT_FOUND" xml:space="preserve">
+    <value>الحساب غير موجود.</value>
+  </data>
+
+	<data name="AUTH_INVALID_CREDENTIALS" xml:space="preserve">
+    <value>البريد الإلكتروني أو كلمة المرور غير صحيحة.</value>
+  </data>
+
+	<data name="CURRENCY_INVALID" xml:space="preserve">
+    <value>يجب أن تحتوي العملة على 3 أحرف بالضبط.</value>
+  </data>
+
+	<data name="DEPOSIT_DESTINATION_REQUIRED" xml:space="preserve">
+    <value>الإيداع يتطلب تحديد حساب الوجهة.</value>
+  </data>
+
+	<data name="JWT_AUDIENCE_NOT_FOUND" xml:space="preserve">
+    <value>لم يتم العثور على جمهور JWT.</value>
+  </data>
+
+	<data name="JWT_ISSUER_NOT_FOUND" xml:space="preserve">
+    <value>لم يتم العثور على مُصدر JWT.</value>
+  </data>
+
+	<data name="JWT_SECRET_KEY_EMPTY" xml:space="preserve">
+    <value>لا يمكن أن يكون مفتاح JWT السري فارغًا.</value>
+  </data>
+
+	<data name="JWT_SECRET_KEY_NOT_FOUND" xml:space="preserve">
+    <value>لم يتم العثور على مفتاح JWT السري.</value>
+  </data>
+
+	<data name="POSTGRESQL_CONNECTION_STRING_NOT_FOUND" xml:space="preserve">
+    <value>لم يتم العثور على سلسلة اتصال PostgreSQL.</value>
+  </data>
+
+	<data name="SQLSERVER_CONNECTION_STRING_NOT_FOUND" xml:space="preserve">
+    <value>لم يتم العثور على سلسلة اتصال SQL Server.</value>
+  </data>
+
+	<data name="TRANSACTION_AMOUNT_INVALID" xml:space="preserve">
+    <value>يجب أن يكون مبلغ المعاملة أكبر من صفر.</value>
+  </data>
+
+	<data name="TRANSACTION_CREATION_RETRIEVAL_FAILED" xml:space="preserve">
+    <value>تم إنشاء المعاملة ولكن تعذر استرجاعها.</value>
+  </data>
+
+	<data name="TRANSACTION_NOT_FOUND" xml:space="preserve">
+    <value>المعاملة غير موجودة.</value>
+  </data>
+
+	<data name="TRANSACTION_TYPE_INVALID" xml:space="preserve">
+    <value>نوع المعاملة غير صحيح.</value>
+  </data>
+
+	<data name="TRANSFER_ACCOUNTS_MUST_DIFFER" xml:space="preserve">
+    <value>يجب أن يكون حساب المصدر وحساب الوجهة مختلفين.</value>
+  </data>
+
+	<data name="TRANSFER_ACCOUNTS_REQUIRED" xml:space="preserve">
+    <value>التحويل يتطلب تحديد حساب المصدر وحساب الوجهة.</value>
+  </data>
+
+	<data name="UNSUPPORTED_DATABASE_TYPE" xml:space="preserve">
+    <value>نوع قاعدة البيانات غير مدعوم.</value>
+  </data>
+
+	<data name="USER_EMAIL_ALREADY_EXISTS" xml:space="preserve">
+    <value>يوجد مستخدم بهذا البريد الإلكتروني بالفعل.</value>
+  </data>
+
+	<data name="USER_NOT_FOUND" xml:space="preserve">
+    <value>المستخدم غير موجود.</value>
+  </data>
+
+	<data name="WITHDRAWAL_SOURCE_REQUIRED" xml:space="preserve">
+    <value>السحب يتطلب تحديد حساب المصدر.</value>
+  </data>
+</root>
