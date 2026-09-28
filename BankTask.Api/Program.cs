@@ -31,8 +31,8 @@ builder.Services.AddSingleton<IConnectionFactory>(connectionFactory);
 // Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
-builder.Services.AddScoped<ITransactionRepository, TransactionRepository>(); 
-builder.Services.AddScoped<AuditLogRepository>();
+builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+builder.Services.AddScoped<IAuditLogRepository, AuditLogRepository>();
 
 // Security
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
@@ -41,8 +41,8 @@ builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services
     .AddOptions<JwtOptions>()
     .BindConfiguration("Jwt")
-    .Validate(options =>
-        !string.IsNullOrWhiteSpace(options.SecretKey),
+    .Validate(
+        options => !string.IsNullOrWhiteSpace(options.SecretKey),
         "JWT secret key not found.")
     .ValidateOnStart();
 
@@ -68,31 +68,40 @@ builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
+        options.TokenValidationParameters =
+            new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
 
-            IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(jwtSecretKey)),
+                IssuerSigningKey =
+                    new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(jwtSecretKey)),
 
-            ValidateIssuer = true,
-            ValidIssuer = jwtIssuer,
+                ValidateIssuer = true,
+                ValidIssuer = jwtIssuer,
 
-            ValidateAudience = true,
-            ValidAudience = jwtAudience,
+                ValidateAudience = true,
+                ValidAudience = jwtAudience,
 
-            ValidateLifetime = true,
+                ValidateLifetime = true,
 
-            ClockSkew = TimeSpan.Zero
-        };
+                ClockSkew = TimeSpan.Zero
+            };
     });
 
-// 
 // Services
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddScoped<
+    IAuthenticationService,
+    AuthenticationService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
-builder.Services.AddScoped<ITransactionService, TransactionService>();
+builder.Services.AddScoped<
+    ITransactionService,
+    TransactionService>();
+builder.Services.AddScoped<
+    IAuditLogService,
+    AuditLogService>();
+
 // Controllers
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -104,10 +113,12 @@ builder.Services.AddSwaggerGen(options =>
         new Microsoft.OpenApi.Models.OpenApiSecurityScheme
         {
             Name = "Authorization",
-            Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+            Type =
+                Microsoft.OpenApi.Models.SecuritySchemeType.Http,
             Scheme = "bearer",
             BearerFormat = "JWT",
-            In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+            In =
+                Microsoft.OpenApi.Models.ParameterLocation.Header,
             Description = "Enter your JWT token."
         });
 
@@ -120,7 +131,9 @@ builder.Services.AddSwaggerGen(options =>
                     Reference =
                         new Microsoft.OpenApi.Models.OpenApiReference
                         {
-                            Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                            Type =
+                                Microsoft.OpenApi.Models.ReferenceType
+                                    .SecurityScheme,
                             Id = "Bearer"
                         }
                 },
