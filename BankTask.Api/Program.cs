@@ -1,4 +1,5 @@
 using System.Text;
+using BankTask.Api.Middleware;
 using BankTask.Application.Interfaces.Repositories;
 using BankTask.Application.Interfaces.Security;
 using BankTask.Application.Interfaces.Services;
@@ -11,7 +12,9 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Connection Strings
+
 var sqlServerConnectionString =
     builder.Configuration.GetConnectionString("SqlServer")
     ?? throw new InvalidOperationException(
@@ -29,26 +32,32 @@ var connectionFactory = new ConnectionFactory(
 builder.Services.AddSingleton<IConnectionFactory>(connectionFactory);
 
 // Repositories
+
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
-builder.Services.AddScoped<ITransactionRepository, TransactionRepository>(); 
+builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<AuditLogRepository>();
 
 // Security
+
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 
 // JWT Options
+
 builder.Services
     .AddOptions<JwtOptions>()
     .BindConfiguration("Jwt")
-    .Validate(options =>
-        !string.IsNullOrWhiteSpace(options.SecretKey),
+    .Validate(
+        options => !string.IsNullOrWhiteSpace(options.SecretKey),
         "JWT secret key not found.")
     .ValidateOnStart();
 
 builder.Services.AddScoped<IJwtService, JwtService>();
 
 // JWT Authentication
+
+
 var jwtSecretKey =
     builder.Configuration["Jwt:SecretKey"]
     ?? throw new InvalidOperationException(
@@ -87,15 +96,20 @@ builder.Services
         };
     });
 
-// 
-// Services
+// Application Services
+
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
+
+
 // Controllers
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+
+// Swagger
 
 builder.Services.AddSwaggerGen(options =>
 {
@@ -129,7 +143,11 @@ builder.Services.AddSwaggerGen(options =>
         });
 });
 
+// Build Application
+
 var app = builder.Build();
+
+// Swagger
 
 if (app.Environment.IsDevelopment())
 {
@@ -137,10 +155,26 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// HTTPS
+
 app.UseHttpsRedirection();
+
+// Exception Handling Middleware
+
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+// Request / Response Logging Middleware
+
+app.UseMiddleware<RequestResponseLoggingMiddleware>();
+
+// Authentication & Authorization
+
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Controllers
 
 app.MapControllers();
 
