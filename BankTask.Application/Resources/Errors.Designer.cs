@@ -22,7 +22,7 @@ namespace BankTask.Application.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Errors {
+    public class Errors {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace BankTask.Application.Resources {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BankTask.Application.Resources.Errors", typeof(Errors).Assembly);
@@ -51,7 +51,7 @@ namespace BankTask.Application.Resources {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,16 +63,34 @@ namespace BankTask.Application.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Account not found..
         /// </summary>
-        internal static string ACCOUNT_NOT_FOUND {
+        public static string ACCOUNT_NOT_FOUND {
             get {
                 return ResourceManager.GetString("ACCOUNT_NOT_FOUND", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The audit log was created but could not be retrieved..
+        /// </summary>
+        public static string AUDIT_LOG_CREATION_RETRIEVAL_FAILED {
+            get {
+                return ResourceManager.GetString("AUDIT_LOG_CREATION_RETRIEVAL_FAILED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Audit log not found..
+        /// </summary>
+        public static string AUDIT_LOG_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("AUDIT_LOG_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid email or password..
         /// </summary>
-        internal static string AUTH_INVALID_CREDENTIALS {
+        public static string AUTH_INVALID_CREDENTIALS {
             get {
                 return ResourceManager.GetString("AUTH_INVALID_CREDENTIALS", resourceCulture);
             }
@@ -81,7 +99,7 @@ namespace BankTask.Application.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Currency must contain exactly 3 characters..
         /// </summary>
-        internal static string CURRENCY_INVALID {
+        public static string CURRENCY_INVALID {
             get {
                 return ResourceManager.GetString("CURRENCY_INVALID", resourceCulture);
             }
@@ -90,7 +108,7 @@ namespace BankTask.Application.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Deposit requires a destination account..
         /// </summary>
-        internal static string DEPOSIT_DESTINATION_REQUIRED {
+        public static string DEPOSIT_DESTINATION_REQUIRED {
             get {
                 return ResourceManager.GetString("DEPOSIT_DESTINATION_REQUIRED", resourceCulture);
             }
@@ -99,7 +117,7 @@ namespace BankTask.Application.Resources {
         /// <summary>
         ///   Looks up a localized string similar to JWT audience not found..
         /// </summary>
-        internal static string JWT_AUDIENCE_NOT_FOUND {
+        public static string JWT_AUDIENCE_NOT_FOUND {
             get {
                 return ResourceManager.GetString("JWT_AUDIENCE_NOT_FOUND", resourceCulture);
             }
@@ -108,7 +126,7 @@ namespace BankTask.Application.Resources {
         /// <summary>
         ///   Looks up a localized string similar to JWT issuer not found..
         /// </summary>
-        internal static string JWT_ISSUER_NOT_FOUND {
+        public static string JWT_ISSUER_NOT_FOUND {
             get {
                 return ResourceManager.GetString("JWT_ISSUER_NOT_FOUND", resourceCulture);
             }
@@ -117,7 +135,7 @@ namespace BankTask.Application.Resources {
         /// <summary>
         ///   Looks up a localized string similar to JWT secret key cannot be empty..
         /// </summary>
-        internal static string JWT_SECRET_KEY_EMPTY {
+        public static string JWT_SECRET_KEY_EMPTY {
             get {
                 return ResourceManager.GetString("JWT_SECRET_KEY_EMPTY", resourceCulture);
             }
@@ -126,7 +144,7 @@ namespace BankTask.Application.Resources {
         /// <summary>
         ///   Looks up a localized string similar to JWT secret key not found..
         /// </summary>
-        internal static string JWT_SECRET_KEY_NOT_FOUND {
+        public static string JWT_SECRET_KEY_NOT_FOUND {
             get {
                 return ResourceManager.GetString("JWT_SECRET_KEY_NOT_FOUND", resourceCulture);
             }
@@ -135,7 +153,7 @@ namespace BankTask.Application.Resources {
         /// <summary>
         ///   Looks up a localized string similar to PostgreSQL connection string not found..
         /// </summary>
-        internal static string POSTGRESQL_CONNECTION_STRING_NOT_FOUND {
+        public static string POSTGRESQL_CONNECTION_STRING_NOT_FOUND {
             get {
                 return ResourceManager.GetString("POSTGRESQL_CONNECTION_STRING_NOT_FOUND", resourceCulture);
             }
@@ -144,7 +162,7 @@ namespace BankTask.Application.Resources {
         /// <summary>
         ///   Looks up a localized string similar to SqlServer connection string not found..
         /// </summary>
-        internal static string SQLSERVER_CONNECTION_STRING_NOT_FOUND {
+        public static string SQLSERVER_CONNECTION_STRING_NOT_FOUND {
             get {
                 return ResourceManager.GetString("SQLSERVER_CONNECTION_STRING_NOT_FOUND", resourceCulture);
             }
@@ -153,7 +171,7 @@ namespace BankTask.Application.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Transaction amount must be greater than zero..
         /// </summary>
-        internal static string TRANSACTION_AMOUNT_INVALID {
+        public static string TRANSACTION_AMOUNT_INVALID {
             get {
                 return ResourceManager.GetString("TRANSACTION_AMOUNT_INVALID", resourceCulture);
             }
@@ -162,7 +180,7 @@ namespace BankTask.Application.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Transaction was created but could not be retrieved..
         /// </summary>
-        internal static string TRANSACTION_CREATION_RETRIEVAL_FAILED {
+        public static string TRANSACTION_CREATION_RETRIEVAL_FAILED {
             get {
                 return ResourceManager.GetString("TRANSACTION_CREATION_RETRIEVAL_FAILED", resourceCulture);
             }
@@ -171,7 +189,7 @@ namespace BankTask.Application.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Transaction not found..
         /// </summary>
-        internal static string TRANSACTION_NOT_FOUND {
+        public static string TRANSACTION_NOT_FOUND {
             get {
                 return ResourceManager.GetString("TRANSACTION_NOT_FOUND", resourceCulture);
             }
@@ -180,7 +198,7 @@ namespace BankTask.Application.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Invalid transaction type..
         /// </summary>
-        internal static string TRANSACTION_TYPE_INVALID {
+        public static string TRANSACTION_TYPE_INVALID {
             get {
                 return ResourceManager.GetString("TRANSACTION_TYPE_INVALID", resourceCulture);
             }
@@ -189,7 +207,7 @@ namespace BankTask.Application.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Source and destination accounts must be different..
         /// </summary>
-        internal static string TRANSFER_ACCOUNTS_MUST_DIFFER {
+        public static string TRANSFER_ACCOUNTS_MUST_DIFFER {
             get {
                 return ResourceManager.GetString("TRANSFER_ACCOUNTS_MUST_DIFFER", resourceCulture);
             }
@@ -198,7 +216,7 @@ namespace BankTask.Application.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Transfer requires both source and destination accounts..
         /// </summary>
-        internal static string TRANSFER_ACCOUNTS_REQUIRED {
+        public static string TRANSFER_ACCOUNTS_REQUIRED {
             get {
                 return ResourceManager.GetString("TRANSFER_ACCOUNTS_REQUIRED", resourceCulture);
             }
@@ -207,7 +225,7 @@ namespace BankTask.Application.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Unsupported database type..
         /// </summary>
-        internal static string UNSUPPORTED_DATABASE_TYPE {
+        public static string UNSUPPORTED_DATABASE_TYPE {
             get {
                 return ResourceManager.GetString("UNSUPPORTED_DATABASE_TYPE", resourceCulture);
             }
@@ -216,7 +234,7 @@ namespace BankTask.Application.Resources {
         /// <summary>
         ///   Looks up a localized string similar to A user with this email already exists..
         /// </summary>
-        internal static string USER_EMAIL_ALREADY_EXISTS {
+        public static string USER_EMAIL_ALREADY_EXISTS {
             get {
                 return ResourceManager.GetString("USER_EMAIL_ALREADY_EXISTS", resourceCulture);
             }
@@ -225,7 +243,7 @@ namespace BankTask.Application.Resources {
         /// <summary>
         ///   Looks up a localized string similar to User not found..
         /// </summary>
-        internal static string USER_NOT_FOUND {
+        public static string USER_NOT_FOUND {
             get {
                 return ResourceManager.GetString("USER_NOT_FOUND", resourceCulture);
             }
@@ -234,7 +252,7 @@ namespace BankTask.Application.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Withdrawal requires a source account..
         /// </summary>
-        internal static string WITHDRAWAL_SOURCE_REQUIRED {
+        public static string WITHDRAWAL_SOURCE_REQUIRED {
             get {
                 return ResourceManager.GetString("WITHDRAWAL_SOURCE_REQUIRED", resourceCulture);
             }

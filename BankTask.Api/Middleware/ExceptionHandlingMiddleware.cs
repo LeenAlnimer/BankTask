@@ -1,5 +1,7 @@
-﻿using System.Text.Json;
+﻿using System.Globalization;
+using System.Text.Json;
 using BankTask.Application.Exceptions;
+using BankTask.Application.Resources;
 
 namespace BankTask.Api.Middleware;
 
@@ -56,10 +58,18 @@ public class ExceptionHandlingMiddleware
 
         context.Response.ContentType = "application/json";
 
+        var culture = GetCulture(context);
+
+        var message =
+            Errors.ResourceManager.GetString(
+                exception.ErrorCode,
+                culture)
+            ?? exception.Message;
+
         var response = new
         {
             errorCode = exception.ErrorCode,
-            message = exception.Message
+            message
         };
 
         await context.Response.WriteAsync(
@@ -74,13 +84,34 @@ public class ExceptionHandlingMiddleware
 
         context.Response.ContentType = "application/json";
 
+        var culture = GetCulture(context);
+
+        var message = culture.TwoLetterISOLanguageName == "ar"
+            ? "حدث خطأ غير متوقع."
+            : "An unexpected error occurred.";
+
         var response = new
         {
             errorCode = "INTERNAL_SERVER_ERROR",
-            message = "An unexpected error occurred."
+            message
         };
 
         await context.Response.WriteAsync(
             JsonSerializer.Serialize(response));
+    }
+
+    private static CultureInfo GetCulture(HttpContext context)
+    {
+        var acceptLanguage =
+            context.Request.Headers.AcceptLanguage.ToString();
+
+        if (acceptLanguage.StartsWith(
+            "ar",
+            StringComparison.OrdinalIgnoreCase))
+        {
+            return new CultureInfo("ar");
+        }
+
+        return new CultureInfo("en");
     }
 }
