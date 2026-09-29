@@ -223,6 +223,15 @@ namespace BankTask.Application.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An unexpected error occurred..
+        /// </summary>
+        public static string UNEXPECTED_ERROR {
+            get {
+                return ResourceManager.GetString("UNEXPECTED_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unsupported database type..
         /// </summary>
         public static string UNSUPPORTED_DATABASE_TYPE {
