@@ -2,7 +2,7 @@
 
 ## Overview
 
-BankTask is a backend banking application built with ASP.NET Core and C#.
+CoreBankingApi is a backend banking application built with ASP.NET Core and C#.
 
 The project is designed as a practical backend task to demonstrate clean separation of responsibilities, database abstraction, repository-based data access, authentication, and integration with multiple database technologies.
 
@@ -368,31 +368,6 @@ Current containers:
 - banktask-sqlserver
 - banktask-postgres
 
-### SQL Server
-
-Docker image:
-
-`mcr.microsoft.com/mssql/server:2022-latest`
-
-Host port:
-
-`1433`
-
-### PostgreSQL
-
-Docker image:
-
-`postgres:latest`
-
-Host port:
-
-`5433`
-
-Container port:
-
-`5432`
-
-The PostgreSQL host port is 5433 because port 5432 was already occupied locally.
 
 ---
 
@@ -549,63 +524,8 @@ The project uses local secrets/environment-based configuration for sensitive val
 
 The committed `appsettings.json` should contain only non-sensitive configuration or safe placeholders.
 
----
 
-## Git Workflow
 
-The project follows a feature-branch workflow.
-
-The main branch is:
-
-`master`
-
-Development work should be performed on feature branches.
-
-Example:
-
-`feature/application-layer`
-
-The expected workflow is:
-
-master
-
-↓
-
-feature branch
-
-↓
-
-implementation
-
-↓
-
-commit
-
-↓
-
-push
-
-↓
-
-Pull Request
-
-↓
-
-master
-
-Each logical development step should have its own clearly named commit.
-
-Example commit names:
-
-- feat: add application services
-- feat: add authentication flow
-- feat: add account endpoints
-- feat: add transaction endpoints
-- feat: add audit logging
-- fix: handle database connection errors
-- docs: update project README
-
-The purpose of clear commit names is to make the project history easy to understand and review.
 
 ---
 
@@ -636,46 +556,4 @@ Each logical stage is developed and committed separately.
 
 ---
 
-## Current Status
 
-The initial project setup has been completed.
-
-Completed areas include:
-
-- Solution structure
-- Project separation
-- SQL Server Docker container
-- PostgreSQL Docker container
-- SQL Server database
-- PostgreSQL database
-- Users table
-- Accounts table
-- Transactions table
-- Audit Logs table
-- Domain entities
-- DBManager abstraction
-- SQL Server DB Manager
-- PostgreSQL DB Manager
-- DB Manager Factory
-- Dapper integration
-- User repository
-- Account repository
-- Transaction repository
-- Audit Log repository
-- Dependency Injection configuration
-- Initial GitHub repository
-- Initial project documentation
-
-The next implementation stages will focus on the Application layer, authentication, API endpoints, business logic, validation, and final integration.
-
----
-
-## Notes
-
-This project is a practical backend implementation task.
-
-The implementation may evolve as additional requirements or clarifications are received.
-
-Architecture and business logic decisions will be adjusted when required by the final task requirements.
-
-The project intentionally prioritizes clear structure, separation of responsibilities, maintainability, and practical backend development patterns.
