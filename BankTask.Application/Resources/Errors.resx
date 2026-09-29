@@ -183,4 +183,7 @@
   <data name="WITHDRAWAL_SOURCE_REQUIRED" xml:space="preserve">
     <value>Withdrawal requires a source account.</value>
   </data>
+  <data name="UNEXPECTED_ERROR" xml:space="preserve">
+    <value>An unexpected error occurred.</value>
+  </data>
 </root>

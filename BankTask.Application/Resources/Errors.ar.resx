@@ -183,4 +183,7 @@
   <data name="WITHDRAWAL_SOURCE_REQUIRED" xml:space="preserve">
     <value>السحب يتطلب تحديد حساب المصدر.</value>
   </data>
+  <data name="UNEXPECTED_ERROR" xml:space="preserve">
+    <value>حدث خطأ غير متوقع.</value>
+  </data>
 </root>

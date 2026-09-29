@@ -22,13 +22,7 @@ public class TransactionsController : ControllerBase
     public async Task<ActionResult<TransactionResponse>> GetById(
         Guid id)
     {
-        var transaction =
-            await _transactionService.GetByIdAsync(id);
-
-        if (transaction is null)
-        {
-            return NotFound();
-        }
+        var transaction = await _transactionService.GetByIdAsync(id);
 
         return Ok(transaction);
     }

@@ -18,14 +18,7 @@ public class AuditLogsController : ControllerBase
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<AuditLogResponse>> GetById(Guid id)
     {
-        var auditLog =
-            await _auditLogService.GetByIdAsync(id);
-
-        if (auditLog is null)
-        {
-            return NotFound();
-        }
-
+        var auditLog = await _auditLogService.GetByIdAsync(id);
         return Ok(auditLog);
     }
 

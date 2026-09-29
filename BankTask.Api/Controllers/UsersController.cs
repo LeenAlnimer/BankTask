@@ -21,12 +21,6 @@ public class UsersController : ControllerBase
     public async Task<ActionResult<UserResponse>> GetById(Guid id)
     {
         var user = await _userService.GetByIdAsync(id);
-
-        if (user is null)
-        {
-            return NotFound();
-        }
-
         return Ok(user);
     }
 
@@ -55,28 +49,14 @@ public class UsersController : ControllerBase
         Guid id,
         UpdateUserRequest request)
     {
-        var updated = await _userService.UpdateAsync(
-            id,
-            request);
-
-        if (!updated)
-        {
-            return NotFound();
-        }
-
+        await _userService.UpdateAsync(id, request);
         return NoContent();
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var deleted = await _userService.DeleteAsync(id);
-
-        if (!deleted)
-        {
-            return NotFound();
-        }
-
+        await _userService.DeleteAsync(id);
         return NoContent();
     }
 }

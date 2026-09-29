@@ -46,8 +46,8 @@ public class UserService : IUserService
 
         if (existingUser is not null)
         {
-            throw new InvalidOperationException(
-                "A user with this email already exists.");
+            throw new BankTask.Application.Exceptions.ConflictException(
+                "USER_EMAIL_ALREADY_EXISTS");
         }
 
         var user = new User
@@ -75,7 +75,8 @@ public class UserService : IUserService
 
         if (existingUser is null)
         {
-            return false;
+            throw new BankTask.Application.Exceptions.NotFoundException(
+                "USER_NOT_FOUND");
         }
 
         existingUser.FullName = request.FullName;
@@ -92,7 +93,8 @@ public class UserService : IUserService
 
         if (existingUser is null)
         {
-            return false;
+            throw new BankTask.Application.Exceptions.NotFoundException(
+                "USER_NOT_FOUND");
         }
 
         return await _userRepository.DeleteAsync(id);

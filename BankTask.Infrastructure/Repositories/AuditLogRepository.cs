@@ -84,7 +84,7 @@ public class AuditLogRepository : IAuditLogRepository
             });
 
         return await GetByIdAsync(auditLog.Id)
-            ?? throw new InvalidOperationException(
-                "The audit log could not be retrieved after creation.");
+            ?? throw new BankTask.Application.Exceptions.AppException(
+                "AUDIT_LOG_CREATION_RETRIEVAL_FAILED");
     }
 }

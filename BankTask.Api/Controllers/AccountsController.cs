@@ -1,4 +1,5 @@
 ﻿using BankTask.Application.DTOs.Accounts;
+using BankTask.Application.DTOs.Accounts;
 using BankTask.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,12 +20,6 @@ public class AccountsController : ControllerBase
     public async Task<ActionResult<AccountResponse>> GetById(Guid id)
     {
         var account = await _accountService.GetByIdAsync(id);
-
-        if (account is null)
-        {
-            return NotFound();
-        }
-
         return Ok(account);
     }
 
@@ -53,28 +48,14 @@ public class AccountsController : ControllerBase
         Guid id,
         UpdateAccountRequest request)
     {
-        var updated = await _accountService.UpdateAsync(
-            id,
-            request);
-
-        if (!updated)
-        {
-            return NotFound();
-        }
-
+        await _accountService.UpdateAsync(id, request);
         return NoContent();
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var deleted = await _accountService.DeleteAsync(id);
-
-        if (!deleted)
-        {
-            return NotFound();
-        }
-
+        await _accountService.DeleteAsync(id);
         return NoContent();
     }
 }

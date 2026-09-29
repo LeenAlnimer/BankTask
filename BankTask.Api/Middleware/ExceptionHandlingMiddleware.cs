@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Text.Json;
+using BankTask.Application.DTOs.Errors;
 using BankTask.Application.Exceptions;
 using BankTask.Application.Resources;
 
@@ -65,11 +66,10 @@ public class ExceptionHandlingMiddleware
                 exception.ErrorCode,
                 culture)
             ?? exception.Message;
-
-        var response = new
+        var response = new ErrorResponse
         {
-            errorCode = exception.ErrorCode,
-            message
+            ErrorCode = exception.ErrorCode,
+            Message = message
         };
 
         await context.Response.WriteAsync(
@@ -86,32 +86,40 @@ public class ExceptionHandlingMiddleware
 
         var culture = GetCulture(context);
 
-        var message = culture.TwoLetterISOLanguageName == "ar"
-            ? "حدث خطأ غير متوقع."
-            : "An unexpected error occurred.";
+        var message =
+            Errors.ResourceManager.GetString("UNEXPECTED_ERROR", culture)
+            ?? (culture.TwoLetterISOLanguageName == "ar"
+                ? "حدث خطأ غير متوقع."
+                : "An unexpected error occurred.");
 
-        var response = new
+        var response = new ErrorResponse
         {
-            errorCode = "INTERNAL_SERVER_ERROR",
-            message
+            ErrorCode = "UNEXPECTED_ERROR",
+            Message = message
         };
 
-        await context.Response.WriteAsync(
-            JsonSerializer.Serialize(response));
+        await context.Response.WriteAsync(JsonSerializer.Serialize(response));
     }
 
     private static CultureInfo GetCulture(HttpContext context)
     {
-        var acceptLanguage =
-            context.Request.Headers.AcceptLanguage.ToString();
+        var acceptLanguage = context.Request.Headers["Accept-Language"].ToString();
 
-        if (acceptLanguage.StartsWith(
-            "ar",
-            StringComparison.OrdinalIgnoreCase))
+        if (string.IsNullOrWhiteSpace(acceptLanguage))
         {
-            return new CultureInfo("ar");
+            return new CultureInfo("en");
         }
 
+        // Take the first language token
+        var first = acceptLanguage.Split(',').FirstOrDefault()?.Trim().ToLowerInvariant();
+
+        if (first is null)
+            return new CultureInfo("en");
+
+        if (first.StartsWith("ar"))
+            return new CultureInfo("ar");
+
+        // default to English for supported/en-US etc.
         return new CultureInfo("en");
     }
 }

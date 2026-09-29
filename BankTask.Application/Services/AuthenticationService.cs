@@ -30,8 +30,8 @@ public class AuthenticationService : IAuthenticationService
 
         if (existingUser is not null)
         {
-            throw new InvalidOperationException(
-                "A user with this email already exists.");
+            throw new BankTask.Application.Exceptions.ConflictException(
+                "USER_EMAIL_ALREADY_EXISTS");
         }
 
         var user = new User
@@ -67,8 +67,8 @@ public class AuthenticationService : IAuthenticationService
                 request.Password,
                 user.PasswordHash))
         {
-            throw new UnauthorizedAccessException(
-                "Invalid email or password.");
+            throw new BankTask.Application.Exceptions.UnauthorizedException(
+                "AUTH_INVALID_CREDENTIALS");
         }
 
         var accessToken = _jwtService.GenerateToken(user);

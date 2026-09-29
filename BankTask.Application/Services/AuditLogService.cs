@@ -21,7 +21,8 @@ public class AuditLogService : IAuditLogService
 
         if (auditLog is null)
         {
-            return null;
+            throw new BankTask.Application.Exceptions.NotFoundException(
+                "AUDIT_LOG_NOT_FOUND");
         }
 
         return AuditLogMapper.ToResponse(auditLog);

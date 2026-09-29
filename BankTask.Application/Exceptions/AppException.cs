@@ -1,11 +1,10 @@
 ﻿namespace BankTask.Application.Exceptions;
 
-public abstract class AppException : Exception
+public class AppException : Exception
 {
-    protected AppException(
-        string errorCode,
-        string message)
-        : base(message)
+    public AppException(
+        string errorCode)
+        : base(errorCode)
     {
         ErrorCode = errorCode;
     }

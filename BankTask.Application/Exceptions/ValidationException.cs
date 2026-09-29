@@ -3,9 +3,8 @@
 public class ValidationException : AppException
 {
     public ValidationException(
-        string errorCode,
-        string message)
-        : base(errorCode, message)
+        string errorCode)
+        : base(errorCode)
     {
     }
 }
