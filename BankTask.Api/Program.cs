@@ -1,4 +1,5 @@
 using System.Text;
+using BankTask.Api.Middleware;
 using BankTask.Application.Interfaces.Repositories;
 using BankTask.Application.Interfaces.Security;
 using BankTask.Application.Interfaces.Services;
@@ -11,7 +12,10 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Connection Strings
+
+
 var sqlServerConnectionString =
     builder.Configuration.GetConnectionString("SqlServer")
     ?? throw new InvalidOperationException(
@@ -28,27 +32,42 @@ var connectionFactory = new ConnectionFactory(
 
 builder.Services.AddSingleton<IConnectionFactory>(connectionFactory);
 
+
 // Repositories
+
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
-builder.Services.AddScoped<ITransactionRepository, TransactionRepository>(); 
-builder.Services.AddScoped<AuditLogRepository>();
+builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+builder.Services.AddScoped<IAuditLogRepository, AuditLogRepository>();
+
+
 
 // Security
+
+
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 
+
+
 // JWT Options
+
+
 builder.Services
     .AddOptions<JwtOptions>()
     .BindConfiguration("Jwt")
-    .Validate(options =>
-        !string.IsNullOrWhiteSpace(options.SecretKey),
+    .Validate(
+        options => !string.IsNullOrWhiteSpace(options.SecretKey),
         "JWT secret key not found.")
     .ValidateOnStart();
 
 builder.Services.AddScoped<IJwtService, JwtService>();
 
+
+
 // JWT Authentication
+
+
 var jwtSecretKey =
     builder.Configuration["Jwt:SecretKey"]
     ?? throw new InvalidOperationException(
@@ -68,34 +87,60 @@ builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
+        options.TokenValidationParameters =
+            new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
 
-            IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(jwtSecretKey)),
+                IssuerSigningKey =
+                    new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(jwtSecretKey)),
 
-            ValidateIssuer = true,
-            ValidIssuer = jwtIssuer,
+                ValidateIssuer = true,
+                ValidIssuer = jwtIssuer,
 
-            ValidateAudience = true,
-            ValidAudience = jwtAudience,
+                ValidateAudience = true,
+                ValidAudience = jwtAudience,
 
-            ValidateLifetime = true,
+                ValidateLifetime = true,
 
-            ClockSkew = TimeSpan.Zero
-        };
+                ClockSkew = TimeSpan.Zero
+            };
     });
 
-// 
+
+
 // Services
+
+
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+
+builder.Services.AddScoped<
+    IAuthenticationService,
+    AuthenticationService>();
+
 builder.Services.AddScoped<IAccountService, AccountService>();
-builder.Services.AddScoped<ITransactionService, TransactionService>();
+
+builder.Services.AddScoped<
+    ITransactionService,
+    TransactionService>();
+
+builder.Services.AddScoped<
+    IAuditLogService,
+    AuditLogService>();
+
+
+
 // Controllers
+
+
 builder.Services.AddControllers();
+
 builder.Services.AddEndpointsApiExplorer();
+
+
+// Swagger
+
 
 builder.Services.AddSwaggerGen(options =>
 {
@@ -104,10 +149,12 @@ builder.Services.AddSwaggerGen(options =>
         new Microsoft.OpenApi.Models.OpenApiSecurityScheme
         {
             Name = "Authorization",
-            Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+            Type =
+                Microsoft.OpenApi.Models.SecuritySchemeType.Http,
             Scheme = "bearer",
             BearerFormat = "JWT",
-            In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+            In =
+                Microsoft.OpenApi.Models.ParameterLocation.Header,
             Description = "Enter your JWT token."
         });
 
@@ -120,7 +167,9 @@ builder.Services.AddSwaggerGen(options =>
                     Reference =
                         new Microsoft.OpenApi.Models.OpenApiReference
                         {
-                            Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                            Type =
+                                Microsoft.OpenApi.Models.ReferenceType
+                                    .SecurityScheme,
                             Id = "Bearer"
                         }
                 },
@@ -129,7 +178,17 @@ builder.Services.AddSwaggerGen(options =>
         });
 });
 
+
+
+// Build Application
+
+
 var app = builder.Build();
+
+
+
+// Swagger
+
 
 if (app.Environment.IsDevelopment())
 {
@@ -137,10 +196,30 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
+// HTTPS
+
+
 app.UseHttpsRedirection();
 
+
+// Request / Response Logging
+// (log request early and record final status after next middleware executes)
+app.UseMiddleware<RequestResponseLoggingMiddleware>();
+
+
+// Exception Handling Middleware
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+
+// Authentication & Authorization
+
 app.UseAuthentication();
+
 app.UseAuthorization();
+
+
+// Controllers
 
 app.MapControllers();
 

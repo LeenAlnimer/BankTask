@@ -23,7 +23,8 @@ public class TransactionService : ITransactionService
 
         if (transaction is null)
         {
-            return null;
+            throw new BankTask.Application.Exceptions.NotFoundException(
+                "TRANSACTION_NOT_FOUND");
         }
 
         return TransactionMapper.ToResponse(transaction);
@@ -73,8 +74,8 @@ public class TransactionService : ITransactionService
     {
         if (request.Amount <= 0)
         {
-            throw new ArgumentException(
-                "Transaction amount must be greater than zero.");
+            throw new BankTask.Application.Exceptions.ValidationException(
+                "TRANSACTION_AMOUNT_INVALID");
         }
 
         switch (request.TransactionType)
@@ -84,15 +85,15 @@ public class TransactionService : ITransactionService
                 if (request.SourceAccountId is null ||
                     request.DestinationAccountId is null)
                 {
-                    throw new ArgumentException(
-                        "Transfer requires both source and destination accounts.");
+                    throw new BankTask.Application.Exceptions.ValidationException(
+                        "TRANSFER_ACCOUNTS_REQUIRED");
                 }
 
                 if (request.SourceAccountId ==
                     request.DestinationAccountId)
                 {
-                    throw new ArgumentException(
-                        "Source and destination accounts must be different.");
+                    throw new BankTask.Application.Exceptions.ValidationException(
+                        "TRANSFER_ACCOUNTS_MUST_DIFFER");
                 }
 
                 break;
@@ -101,8 +102,8 @@ public class TransactionService : ITransactionService
 
                 if (request.DestinationAccountId is null)
                 {
-                    throw new ArgumentException(
-                        "Deposit requires a destination account.");
+                    throw new BankTask.Application.Exceptions.ValidationException(
+                        "DEPOSIT_DESTINATION_REQUIRED");
                 }
 
                 break;
@@ -111,23 +112,23 @@ public class TransactionService : ITransactionService
 
                 if (request.SourceAccountId is null)
                 {
-                    throw new ArgumentException(
-                        "Withdrawal requires a source account.");
+                    throw new BankTask.Application.Exceptions.ValidationException(
+                        "WITHDRAWAL_SOURCE_REQUIRED");
                 }
 
                 break;
 
             default:
 
-                throw new ArgumentException(
-                    "Invalid transaction type.");
+                throw new BankTask.Application.Exceptions.ValidationException(
+                    "TRANSACTION_TYPE_INVALID");
         }
 
         if (string.IsNullOrWhiteSpace(request.Currency) ||
             request.Currency.Trim().Length != 3)
         {
-            throw new ArgumentException(
-                "Currency must contain exactly 3 characters.");
+            throw new BankTask.Application.Exceptions.ValidationException(
+                "CURRENCY_INVALID");
         }
     }
 

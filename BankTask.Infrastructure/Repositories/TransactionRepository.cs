@@ -107,8 +107,8 @@ public class TransactionRepository : ITransactionRepository
 
         if (createdTransaction is null)
         {
-            throw new InvalidOperationException(
-                "Transaction was created but could not be retrieved.");
+            throw new BankTask.Application.Exceptions.AppException(
+                "TRANSACTION_CREATION_RETRIEVAL_FAILED");
         }
 
         return createdTransaction;

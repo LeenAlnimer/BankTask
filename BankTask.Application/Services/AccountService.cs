@@ -23,7 +23,8 @@ public class AccountService : IAccountService
 
         if (account is null)
         {
-            return null;
+            throw new BankTask.Application.Exceptions.NotFoundException(
+                "ACCOUNT_NOT_FOUND");
         }
 
         return AccountMapper.ToResponse(account);
@@ -70,7 +71,8 @@ public class AccountService : IAccountService
 
         if (existingAccount is null)
         {
-            return false;
+            throw new BankTask.Application.Exceptions.NotFoundException(
+                "ACCOUNT_NOT_FOUND");
         }
 
         existingAccount.Status = request.Status;
@@ -87,7 +89,8 @@ public class AccountService : IAccountService
 
         if (existingAccount is null)
         {
-            return false;
+            throw new BankTask.Application.Exceptions.NotFoundException(
+                "ACCOUNT_NOT_FOUND");
         }
 
         existingAccount.Status = AccountStatus.Closed;
