@@ -25,7 +25,8 @@ public class AuditLogRepository : IAuditLogRepository
     public async Task<AuditLog?> GetByIdAsync(Guid id)
     {
         using var connection = CreateConnection();
-        const string sql = """
+
+        const string sql = $"""
             SELECT
                 id AS Id,
                 event_id AS EventId,
@@ -37,8 +38,7 @@ public class AuditLogRepository : IAuditLogRepository
                 new_values AS NewValues,
                 ip_address AS IpAddress,
                 created_at AS CreatedAt
-            FROM audit_logs
-            WHERE id = @Id;
+            FROM {GetByIdFunction}(@Id);
             """;
 
         return await connection.QuerySingleOrDefaultAsync<AuditLog>(
@@ -67,7 +67,9 @@ public class AuditLogRepository : IAuditLogRepository
             LIMIT @Limit OFFSET @Offset;
             """;
 
-        return await connection.QueryAsync<AuditLog>(sql, new { Limit = limit, Offset = offset });
+        return await connection.QueryAsync<AuditLog>(
+            sql,
+            new { Limit = limit, Offset = offset });
     }
 
     public async Task<AuditLog> CreateAsync(AuditLog auditLog)
