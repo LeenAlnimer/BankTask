@@ -13,9 +13,8 @@ using Microsoft.IdentityModel.Tokens;
 var builder = WebApplication.CreateBuilder(args);
 
 
-// ==============================
 // Connection Strings
-// ==============================
+
 
 var sqlServerConnectionString =
     builder.Configuration.GetConnectionString("SqlServer")
@@ -34,9 +33,8 @@ var connectionFactory = new ConnectionFactory(
 builder.Services.AddSingleton<IConnectionFactory>(connectionFactory);
 
 
-// ==============================
 // Repositories
-// ==============================
+
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
@@ -44,16 +42,16 @@ builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<IAuditLogRepository, AuditLogRepository>();
 
 
-// ==============================
+
 // Security
-// ==============================
+
 
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 
 
-// ==============================
+
 // JWT Options
-// ==============================
+
 
 builder.Services
     .AddOptions<JwtOptions>()
@@ -66,9 +64,9 @@ builder.Services
 builder.Services.AddScoped<IJwtService, JwtService>();
 
 
-// ==============================
+
 // JWT Authentication
-// ==============================
+
 
 var jwtSecretKey =
     builder.Configuration["Jwt:SecretKey"]
@@ -111,9 +109,9 @@ builder.Services
     });
 
 
-// ==============================
+
 // Services
-// ==============================
+
 
 builder.Services.AddScoped<IUserService, UserService>();
 
@@ -132,18 +130,17 @@ builder.Services.AddScoped<
     AuditLogService>();
 
 
-// ==============================
+
 // Controllers
-// ==============================
+
 
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 
 
-// ==============================
 // Swagger
-// ==============================
+
 
 builder.Services.AddSwaggerGen(options =>
 {
@@ -182,16 +179,16 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 
-// ==============================
+
 // Build Application
-// ==============================
+
 
 var app = builder.Build();
 
 
-// ==============================
+
 // Swagger
-// ==============================
+
 
 if (app.Environment.IsDevelopment())
 {
@@ -200,39 +197,29 @@ if (app.Environment.IsDevelopment())
 }
 
 
-// ==============================
 // HTTPS
-// ==============================
+
 
 app.UseHttpsRedirection();
 
 
-// ==============================
-// Exception Handling Middleware
-// ==============================
-
-app.UseMiddleware<ExceptionHandlingMiddleware>();
-
-
-// ==============================
 // Request / Response Logging
-// ==============================
-
+// (log request early and record final status after next middleware executes)
 app.UseMiddleware<RequestResponseLoggingMiddleware>();
 
 
-// ==============================
+// Exception Handling Middleware
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+
 // Authentication & Authorization
-// ==============================
 
 app.UseAuthentication();
 
 app.UseAuthorization();
 
 
-// ==============================
 // Controllers
-// ==============================
 
 app.MapControllers();
 

@@ -1,5 +1,4 @@
 ﻿namespace BankTask.Application.DTOs.Authentication;
-
 public class LoginRequest
 {
     public string Email { get; set; } = string.Empty;

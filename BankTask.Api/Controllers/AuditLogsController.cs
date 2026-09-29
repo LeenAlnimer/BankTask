@@ -23,10 +23,12 @@ public class AuditLogsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<AuditLogResponse>>> GetAll()
+    public async Task<ActionResult<IEnumerable<AuditLogResponse>>> GetAll(
+        [FromQuery] int offset = 0,
+        [FromQuery] int limit = 100)
     {
         var auditLogs =
-            await _auditLogService.GetAllAsync();
+            await _auditLogService.GetAllAsync(offset, limit);
 
         return Ok(auditLogs);
     }

@@ -25,10 +25,20 @@ public class AuditLogRepository : IAuditLogRepository
     public async Task<AuditLog?> GetByIdAsync(Guid id)
     {
         using var connection = CreateConnection();
-
-        const string sql = $"""
-            SELECT *
-            FROM {GetByIdFunction}(@Id);
+        const string sql = """
+            SELECT
+                id AS Id,
+                event_id AS EventId,
+                user_id AS UserId,
+                action AS Action,
+                entity_type AS EntityType,
+                entity_id AS EntityId,
+                old_values AS OldValues,
+                new_values AS NewValues,
+                ip_address AS IpAddress,
+                created_at AS CreatedAt
+            FROM audit_logs
+            WHERE id = @Id;
             """;
 
         return await connection.QuerySingleOrDefaultAsync<AuditLog>(
@@ -36,16 +46,28 @@ public class AuditLogRepository : IAuditLogRepository
             new { Id = id });
     }
 
-    public async Task<IEnumerable<AuditLog>> GetAllAsync()
+    public async Task<IEnumerable<AuditLog>> GetAllAsync(int offset, int limit)
     {
         using var connection = CreateConnection();
 
-        const string sql = $"""
-            SELECT *
-            FROM {GetAllFunction}();
+        const string sql = """
+            SELECT
+                id AS Id,
+                event_id AS EventId,
+                user_id AS UserId,
+                action AS Action,
+                entity_type AS EntityType,
+                entity_id AS EntityId,
+                old_values AS OldValues,
+                new_values AS NewValues,
+                ip_address AS IpAddress,
+                created_at AS CreatedAt
+            FROM audit_logs
+            ORDER BY created_at DESC
+            LIMIT @Limit OFFSET @Offset;
             """;
 
-        return await connection.QueryAsync<AuditLog>(sql);
+        return await connection.QueryAsync<AuditLog>(sql, new { Limit = limit, Offset = offset });
     }
 
     public async Task<AuditLog> CreateAsync(AuditLog auditLog)

@@ -5,6 +5,6 @@ namespace BankTask.Application.Interfaces.Services;
 public interface IAuditLogService
 {
     Task<AuditLogResponse?> GetByIdAsync(Guid id);
-
-    Task<IEnumerable<AuditLogResponse>> GetAllAsync();
+    // Get audit logs with pagination (offset, limit)
+    Task<IEnumerable<AuditLogResponse>> GetAllAsync(int offset, int limit);
 }

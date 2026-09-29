@@ -28,10 +28,13 @@ public class AuditLogService : IAuditLogService
         return AuditLogMapper.ToResponse(auditLog);
     }
 
-    public async Task<IEnumerable<AuditLogResponse>> GetAllAsync()
+    public async Task<IEnumerable<AuditLogResponse>> GetAllAsync(int offset, int limit)
     {
+        var safeOffset = Math.Max(0, offset);
+        var safeLimit = Math.Max(1, limit);
+
         var auditLogs =
-            await _auditLogRepository.GetAllAsync();
+            await _auditLogRepository.GetAllAsync(safeOffset, safeLimit);
 
         return auditLogs.Select(AuditLogMapper.ToResponse);
     }

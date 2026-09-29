@@ -21,10 +21,13 @@ public class RequestResponseLoggingMiddleware
 
         var request = context.Request;
 
+        var traceId = context.TraceIdentifier;
+
         _logger.LogInformation(
-            "HTTP Request: {Method} {Path}",
+            "HTTP Request: {Method} {Path} TraceId: {TraceId}",
             request.Method,
-            request.Path);
+            request.Path,
+            traceId);
 
         try
         {
@@ -35,11 +38,12 @@ public class RequestResponseLoggingMiddleware
             stopwatch.Stop();
 
             _logger.LogInformation(
-                "HTTP Response: {Method} {Path} responded with {StatusCode} in {ElapsedMilliseconds} ms",
+                "HTTP Response: {Method} {Path} responded with {StatusCode} in {ElapsedMilliseconds} ms TraceId: {TraceId}",
                 request.Method,
                 request.Path,
                 context.Response.StatusCode,
-                stopwatch.ElapsedMilliseconds);
+                stopwatch.ElapsedMilliseconds,
+                traceId);
         }
     }
 }

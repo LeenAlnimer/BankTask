@@ -27,26 +27,31 @@ public class ExceptionHandlingMiddleware
         }
         catch (AppException ex)
         {
+            var traceId = context.TraceIdentifier;
             _logger.LogWarning(
                 ex,
-                "Application exception occurred. ErrorCode: {ErrorCode}",
-                ex.ErrorCode);
+                "Application exception occurred. ErrorCode: {ErrorCode} TraceId: {TraceId}",
+                ex.ErrorCode,
+                traceId);
 
-            await HandleAppExceptionAsync(context, ex);
+            await HandleAppExceptionAsync(context, ex, traceId);
         }
         catch (Exception ex)
         {
+            var traceId = context.TraceIdentifier;
             _logger.LogError(
                 ex,
-                "Unhandled exception occurred.");
+                "Unhandled exception occurred. TraceId: {TraceId}",
+                traceId);
 
-            await HandleUnexpectedExceptionAsync(context);
+            await HandleUnexpectedExceptionAsync(context, traceId);
         }
     }
 
     private static async Task HandleAppExceptionAsync(
         HttpContext context,
-        AppException exception)
+        AppException exception,
+        string traceId)
     {
         context.Response.StatusCode = exception switch
         {
@@ -61,23 +66,27 @@ public class ExceptionHandlingMiddleware
 
         var culture = GetCulture(context);
 
+        // Use controlled localized messages only. Do not return raw exception.Message to client.
         var message =
             Errors.ResourceManager.GetString(
                 exception.ErrorCode,
                 culture)
-            ?? exception.Message;
+            ?? Errors.ResourceManager.GetString("UNEXPECTED_ERROR", culture)
+            ?? exception.ErrorCode;
+
         var response = new ErrorResponse
         {
             ErrorCode = exception.ErrorCode,
-            Message = message
+            Message = message,
+            TraceId = traceId
         };
 
-        await context.Response.WriteAsync(
-            JsonSerializer.Serialize(response));
+        await context.Response.WriteAsJsonAsync(response);
     }
 
     private static async Task HandleUnexpectedExceptionAsync(
-        HttpContext context)
+        HttpContext context,
+        string traceId)
     {
         context.Response.StatusCode =
             StatusCodes.Status500InternalServerError;
@@ -95,10 +104,11 @@ public class ExceptionHandlingMiddleware
         var response = new ErrorResponse
         {
             ErrorCode = "UNEXPECTED_ERROR",
-            Message = message
+            Message = message,
+            TraceId = traceId
         };
 
-        await context.Response.WriteAsync(JsonSerializer.Serialize(response));
+        await context.Response.WriteAsJsonAsync(response);
     }
 
     private static CultureInfo GetCulture(HttpContext context)
