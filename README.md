@@ -26,6 +26,7 @@ The application is planned to support the following features:
 - Database access through repositories
 - Support for multiple database technologies
 - Database-specific connection management
+- Fluent validation 
 - API documentation through Swagger/OpenAPI
 
 ---
