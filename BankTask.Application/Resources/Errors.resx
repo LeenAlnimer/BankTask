@@ -183,6 +183,48 @@
   <data name="WITHDRAWAL_SOURCE_REQUIRED" xml:space="preserve">
     <value>Withdrawal requires a source account.</value>
   </data>
+  <data name="FULL_NAME_REQUIRED" xml:space="preserve">
+    <value>Full name is required.</value>
+  </data>
+  <data name="FULL_NAME_MIN_LENGTH" xml:space="preserve">
+    <value>Full name must be at least 3 characters.</value>
+  </data>
+  <data name="FULL_NAME_MAX_LENGTH" xml:space="preserve">
+    <value>Full name cannot exceed 100 characters.</value>
+  </data>
+  <data name="EMAIL_REQUIRED" xml:space="preserve">
+    <value>Email is required.</value>
+  </data>
+  <data name="EMAIL_INVALID" xml:space="preserve">
+    <value>Invalid email format.</value>
+  </data>
+  <data name="EMAIL_MAX_LENGTH" xml:space="preserve">
+    <value>Email cannot exceed 150 characters.</value>
+  </data>
+  <data name="PASSWORD_REQUIRED" xml:space="preserve">
+    <value>Password is required.</value>
+  </data>
+  <data name="PASSWORD_MIN_LENGTH" xml:space="preserve">
+    <value>Password must be at least 8 characters.</value>
+  </data>
+  <data name="PASSWORD_MAX_LENGTH" xml:space="preserve">
+    <value>Password cannot exceed 100 characters.</value>
+  </data>
+  <data name="ACCOUNT_TYPE_INVALID" xml:space="preserve">
+    <value>Invalid account type.</value>
+  </data>
+  <data name="ACCOUNT_STATUS_INVALID" xml:space="preserve">
+    <value>Invalid account status.</value>
+  </data>
+  <data name="USER_ID_REQUIRED" xml:space="preserve">
+    <value>User ID is required.</value>
+  </data>
+  <data name="TRANSACTION_CURRENCY_REQUIRED" xml:space="preserve">
+    <value>Currency is required.</value>
+  </data>
+  <data name="TRANSACTION_DESCRIPTION_MAX_LENGTH" xml:space="preserve">
+    <value>Description cannot exceed 500 characters.</value>
+  </data>
   <data name="UNEXPECTED_ERROR" xml:space="preserve">
     <value>An unexpected error occurred.</value>
   </data>

@@ -1,19 +1,28 @@
-﻿using BankTask.Application.DTOs.Transactions;
+﻿using System.Security.Claims;
+using System.Text.Json;
+using BankTask.Application.DTOs.Transactions;
 using BankTask.Application.Interfaces.Repositories;
 using BankTask.Application.Interfaces.Services;
 using BankTask.Application.Mappers;
 using BankTask.Domain.Entities;
+using Microsoft.AspNetCore.Http;
 
 namespace BankTask.Application.Services;
 
 public class TransactionService : ITransactionService
 {
     private readonly ITransactionRepository _transactionRepository;
+    private readonly IAuditLogRepository _auditLogRepository;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
     public TransactionService(
-        ITransactionRepository transactionRepository)
+        ITransactionRepository transactionRepository,
+        IAuditLogRepository auditLogRepository,
+        IHttpContextAccessor httpContextAccessor)
     {
         _transactionRepository = transactionRepository;
+        _auditLogRepository = auditLogRepository;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     public async Task<TransactionResponse?> GetByIdAsync(Guid id)
@@ -65,6 +74,24 @@ public class TransactionService : ITransactionService
 
         var createdTransaction =
             await _transactionRepository.CreateAsync(transaction);
+
+        await CreateAuditLogAsync(
+            action: "TRANSACTION_CREATED",
+            eventId: transaction.EventId,
+            entityId: createdTransaction.Id,
+            newValues: new
+            {
+                createdTransaction.Id,
+                createdTransaction.EventId,
+                createdTransaction.SourceAccountId,
+                createdTransaction.DestinationAccountId,
+                createdTransaction.TransactionType,
+                createdTransaction.Amount,
+                createdTransaction.Currency,
+                createdTransaction.ReferenceNumber,
+                createdTransaction.Description,
+                createdTransaction.CreatedAt
+            });
 
         return TransactionMapper.ToResponse(createdTransaction);
     }
@@ -135,5 +162,37 @@ public class TransactionService : ITransactionService
     private static string GenerateReferenceNumber()
     {
         return $"TX-{Guid.NewGuid():N}";
+    }
+
+    private async Task CreateAuditLogAsync(
+        string action,
+        Guid eventId,
+        Guid entityId,
+        object newValues)
+    {
+        var httpContext = _httpContextAccessor.HttpContext;
+
+        var userIdClaim =
+            httpContext?.User.FindFirst(ClaimTypes.NameIdentifier);
+
+        var auditLog = new AuditLog
+        {
+            Id = Guid.NewGuid(),
+            EventId = eventId,
+            UserId =
+                Guid.TryParse(userIdClaim?.Value, out var userId)
+                    ? userId
+                    : null,
+            Action = action,
+            EntityType = "Transaction",
+            EntityId = entityId,
+            OldValues = null,
+            NewValues = JsonSerializer.Serialize(newValues),
+            IpAddress =
+                httpContext?.Connection.RemoteIpAddress?.ToString(),
+            CreatedAt = DateTimeOffset.UtcNow
+        };
+
+        await _auditLogRepository.CreateAsync(auditLog);
     }
 }

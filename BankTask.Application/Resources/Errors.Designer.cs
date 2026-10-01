@@ -70,6 +70,24 @@ namespace BankTask.Application.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid account status..
+        /// </summary>
+        public static string ACCOUNT_STATUS_INVALID {
+            get {
+                return ResourceManager.GetString("ACCOUNT_STATUS_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid account type..
+        /// </summary>
+        public static string ACCOUNT_TYPE_INVALID {
+            get {
+                return ResourceManager.GetString("ACCOUNT_TYPE_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The audit log was created but could not be retrieved..
         /// </summary>
         public static string AUDIT_LOG_CREATION_RETRIEVAL_FAILED {
@@ -115,110 +133,56 @@ namespace BankTask.Application.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to JWT audience not found..
+        ///   Looks up a localized string similar to Invalid email format..
         /// </summary>
-        public static string JWT_AUDIENCE_NOT_FOUND {
+        public static string EMAIL_INVALID {
             get {
-                return ResourceManager.GetString("JWT_AUDIENCE_NOT_FOUND", resourceCulture);
+                return ResourceManager.GetString("EMAIL_INVALID", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to JWT issuer not found..
+        ///   Looks up a localized string similar to Email cannot exceed 150 characters..
         /// </summary>
-        public static string JWT_ISSUER_NOT_FOUND {
+        public static string EMAIL_MAX_LENGTH {
             get {
-                return ResourceManager.GetString("JWT_ISSUER_NOT_FOUND", resourceCulture);
+                return ResourceManager.GetString("EMAIL_MAX_LENGTH", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to JWT secret key cannot be empty..
+        ///   Looks up a localized string similar to Email is required..
         /// </summary>
-        public static string JWT_SECRET_KEY_EMPTY {
+        public static string EMAIL_REQUIRED {
             get {
-                return ResourceManager.GetString("JWT_SECRET_KEY_EMPTY", resourceCulture);
+                return ResourceManager.GetString("EMAIL_REQUIRED", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to JWT secret key not found..
+        ///   Looks up a localized string similar to Full name cannot exceed 100 characters..
         /// </summary>
-        public static string JWT_SECRET_KEY_NOT_FOUND {
+        public static string FULL_NAME_MAX_LENGTH {
             get {
-                return ResourceManager.GetString("JWT_SECRET_KEY_NOT_FOUND", resourceCulture);
+                return ResourceManager.GetString("FULL_NAME_MAX_LENGTH", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to PostgreSQL connection string not found..
+        ///   Looks up a localized string similar to Full name must be at least 3 characters..
         /// </summary>
-        public static string POSTGRESQL_CONNECTION_STRING_NOT_FOUND {
+        public static string FULL_NAME_MIN_LENGTH {
             get {
-                return ResourceManager.GetString("POSTGRESQL_CONNECTION_STRING_NOT_FOUND", resourceCulture);
+                return ResourceManager.GetString("FULL_NAME_MIN_LENGTH", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SqlServer connection string not found..
+        ///   Looks up a localized string similar to Full name is required..
         /// </summary>
-        public static string SQLSERVER_CONNECTION_STRING_NOT_FOUND {
+        public static string FULL_NAME_REQUIRED {
             get {
-                return ResourceManager.GetString("SQLSERVER_CONNECTION_STRING_NOT_FOUND", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Transaction amount must be greater than zero..
-        /// </summary>
-        public static string TRANSACTION_AMOUNT_INVALID {
-            get {
-                return ResourceManager.GetString("TRANSACTION_AMOUNT_INVALID", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Transaction was created but could not be retrieved..
-        /// </summary>
-        public static string TRANSACTION_CREATION_RETRIEVAL_FAILED {
-            get {
-                return ResourceManager.GetString("TRANSACTION_CREATION_RETRIEVAL_FAILED", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Transaction not found..
-        /// </summary>
-        public static string TRANSACTION_NOT_FOUND {
-            get {
-                return ResourceManager.GetString("TRANSACTION_NOT_FOUND", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Invalid transaction type..
-        /// </summary>
-        public static string TRANSACTION_TYPE_INVALID {
-            get {
-                return ResourceManager.GetString("TRANSACTION_TYPE_INVALID", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Source and destination accounts must be different..
-        /// </summary>
-        public static string TRANSFER_ACCOUNTS_MUST_DIFFER {
-            get {
-                return ResourceManager.GetString("TRANSFER_ACCOUNTS_MUST_DIFFER", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Transfer requires both source and destination accounts..
-        /// </summary>
-        public static string TRANSFER_ACCOUNTS_REQUIRED {
-            get {
-                return ResourceManager.GetString("TRANSFER_ACCOUNTS_REQUIRED", resourceCulture);
+                return ResourceManager.GetString("FULL_NAME_REQUIRED", resourceCulture);
             }
         }
         
@@ -250,6 +214,15 @@ namespace BankTask.Application.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User ID is required..
+        /// </summary>
+        public static string USER_ID_REQUIRED {
+            get {
+                return ResourceManager.GetString("USER_ID_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User not found..
         /// </summary>
         public static string USER_NOT_FOUND {
@@ -264,6 +237,69 @@ namespace BankTask.Application.Resources {
         public static string WITHDRAWAL_SOURCE_REQUIRED {
             get {
                 return ResourceManager.GetString("WITHDRAWAL_SOURCE_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to JWT secret key not found..
+        /// </summary>
+        public static string JWT_SECRET_KEY_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("JWT_SECRET_KEY_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password cannot exceed 100 characters..
+        /// </summary>
+        public static string PASSWORD_MAX_LENGTH {
+            get {
+                return ResourceManager.GetString("PASSWORD_MAX_LENGTH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password must be at least 8 characters..
+        /// </summary>
+        public static string PASSWORD_MIN_LENGTH {
+            get {
+                return ResourceManager.GetString("PASSWORD_MIN_LENGTH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password is required..
+        /// </summary>
+        public static string PASSWORD_REQUIRED {
+            get {
+                return ResourceManager.GetString("PASSWORD_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transaction was created but could not be retrieved..
+        /// </summary>
+        public static string TRANSACTION_CREATION_RETRIEVAL_FAILED {
+            get {
+                return ResourceManager.GetString("TRANSACTION_CREATION_RETRIEVAL_FAILED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Currency is required..
+        /// </summary>
+        public static string TRANSACTION_CURRENCY_REQUIRED {
+            get {
+                return ResourceManager.GetString("TRANSACTION_CURRENCY_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description cannot exceed 500 characters..
+        /// </summary>
+        public static string TRANSACTION_DESCRIPTION_MAX_LENGTH {
+            get {
+                return ResourceManager.GetString("TRANSACTION_DESCRIPTION_MAX_LENGTH", resourceCulture);
             }
         }
     }

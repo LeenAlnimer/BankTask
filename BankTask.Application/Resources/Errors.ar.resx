@@ -183,6 +183,48 @@
   <data name="WITHDRAWAL_SOURCE_REQUIRED" xml:space="preserve">
     <value>السحب يتطلب تحديد حساب المصدر.</value>
   </data>
+  <data name="FULL_NAME_REQUIRED" xml:space="preserve">
+    <value>الاسم الكامل مطلوب.</value>
+  </data>
+  <data name="FULL_NAME_MIN_LENGTH" xml:space="preserve">
+    <value>يجب أن يتكون الاسم الكامل من 3 أحرف على الأقل.</value>
+  </data>
+  <data name="FULL_NAME_MAX_LENGTH" xml:space="preserve">
+    <value>لا يمكن أن يتجاوز الاسم الكامل 100 حرف.</value>
+  </data>
+  <data name="EMAIL_REQUIRED" xml:space="preserve">
+    <value>البريد الإلكتروني مطلوب.</value>
+  </data>
+  <data name="EMAIL_INVALID" xml:space="preserve">
+    <value>تنسيق البريد الإلكتروني غير صالح.</value>
+  </data>
+  <data name="EMAIL_MAX_LENGTH" xml:space="preserve">
+    <value>لا يمكن أن يتجاوز البريد الإلكتروني 150 حرفًا.</value>
+  </data>
+  <data name="PASSWORD_REQUIRED" xml:space="preserve">
+    <value>كلمة المرور مطلوبة.</value>
+  </data>
+  <data name="PASSWORD_MIN_LENGTH" xml:space="preserve">
+    <value>يجب أن تتكون كلمة المرور من 8 أحرف على الأقل.</value>
+  </data>
+  <data name="PASSWORD_MAX_LENGTH" xml:space="preserve">
+    <value>لا يمكن أن تتجاوز كلمة المرور 100 حرف.</value>
+  </data>
+  <data name="ACCOUNT_TYPE_INVALID" xml:space="preserve">
+    <value>نوع الحساب غير صالح.</value>
+  </data>
+  <data name="ACCOUNT_STATUS_INVALID" xml:space="preserve">
+    <value>حالة الحساب غير صالحة.</value>
+  </data>
+  <data name="USER_ID_REQUIRED" xml:space="preserve">
+    <value>معرف المستخدم مطلوب.</value>
+  </data>
+  <data name="TRANSACTION_CURRENCY_REQUIRED" xml:space="preserve">
+    <value>العملة مطلوبة.</value>
+  </data>
+  <data name="TRANSACTION_DESCRIPTION_MAX_LENGTH" xml:space="preserve">
+    <value>لا يمكن أن يتجاوز الوصف 500 حرف.</value>
+  </data>
   <data name="UNEXPECTED_ERROR" xml:space="preserve">
     <value>حدث خطأ غير متوقع.</value>
   </data>
