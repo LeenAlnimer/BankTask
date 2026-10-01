@@ -35,7 +35,8 @@ public class UserService : IUserService
 
         if (user is null)
         {
-            return null;
+            throw new BankTask.Application.Exceptions.NotFoundException(
+                "USER_NOT_FOUND");
         }
 
         return UserMapper.ToResponse(user);
