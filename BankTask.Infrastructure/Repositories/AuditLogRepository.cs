@@ -13,7 +13,7 @@ public class AuditLogRepository : IAuditLogRepository
     private const string GetByIdFunction = "get_audit_log_by_id";
     private const string GetAllFunction = "get_all_audit_logs";
     private const string CreateProcedure = "create_audit_log";
-
+    
     public AuditLogRepository(IConnectionFactory connectionFactory)
     {
         _connectionFactory = connectionFactory;
@@ -36,7 +36,7 @@ public class AuditLogRepository : IAuditLogRepository
                 entity_id AS EntityId,
                 old_values AS OldValues,
                 new_values AS NewValues,
-                ip_address AS IpAddress,
+                ip_address::text AS IpAddress,
                 created_at AS CreatedAt
             FROM {GetByIdFunction}(@Id);
             """;
@@ -60,7 +60,7 @@ public class AuditLogRepository : IAuditLogRepository
                 entity_id AS EntityId,
                 old_values AS OldValues,
                 new_values AS NewValues,
-                ip_address AS IpAddress,
+                ip_address::text AS IpAddress,
                 created_at AS CreatedAt
             FROM audit_logs
             ORDER BY created_at DESC

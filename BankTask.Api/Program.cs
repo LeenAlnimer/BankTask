@@ -1,13 +1,17 @@
 using System.Text;
+using BankTask.Api.Filters;
 using BankTask.Api.Middleware;
 using BankTask.Application.Interfaces.Repositories;
 using BankTask.Application.Interfaces.Security;
 using BankTask.Application.Interfaces.Services;
 using BankTask.Application.Services;
+using BankTask.Application.Validators;
 using BankTask.Authentication;
 using BankTask.DBManager;
 using BankTask.Infrastructure.Repositories;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -131,12 +135,33 @@ builder.Services.AddScoped<
 
 
 
+// Validation
+
+
+builder.Services.AddValidatorsFromAssemblyContaining<
+    SignupRequestValidator>();
+
+builder.Services.AddScoped<ValidationFilter>();
+
+builder.Services.AddHttpContextAccessor();
+
+
+
 // Controllers
 
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ValidationFilter>();
+});
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
+});
 
 builder.Services.AddEndpointsApiExplorer();
+
 
 
 // Swagger
