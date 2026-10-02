@@ -1,0 +1,1091 @@
+{
+  "info": {
+    "_postman_id": "60c6cbd3-5d00-429a-8ca5-4d68e01f0763",
+    "name": "BankTask API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "49858196",
+    "_collection_link": "https://go.postman.co/collection/49858196-60c6cbd3-5d00-429a-8ca5-4d68e01f0763?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"leen.validation.test@example.com\",\r\n  \"password\": \"Password123\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7274/api/Auth/login",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7274",
+          "path": [
+            "api",
+            "Auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get User By Id",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{bearer_token_14yt}}"
+          }
+        ],
+        "url": {
+          "raw": "https://localhost:7274/api/Users/3b78a068-b804-4ea0-8b7e-086c35862d2a",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7274",
+          "path": [
+            "api",
+            "Users",
+            "3b78a068-b804-4ea0-8b7e-086c35862d2a"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update User - Duplicate Email",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{bearer_token_0r3g}}"
+          },
+          {
+            "key": "Accept-Language",
+            "value": "en"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"fullName\": \"leenalnimer\",\r\n  \"email\": \"leen.validation.test@example.com\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7274/api/Users/3b78a068-b804-4ea0-8b7e-086c35862d2a",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7274",
+          "path": [
+            "api",
+            "Users",
+            "3b78a068-b804-4ea0-8b7e-086c35862d2a"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get User By Id - Invalid JWT",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{bearer_token_18qx}}"
+          }
+        ],
+        "url": {
+          "raw": "https://localhost:7274/api/Users/3b78a068-b804-4ea0-8b7e-086c35862d2a",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7274",
+          "path": [
+            "api",
+            "Users",
+            "3b78a068-b804-4ea0-8b7e-086c35862d2a"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get User By Id - Malformed GUID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{bearer_token_14yt}}"
+          }
+        ],
+        "url": {
+          "raw": "https://localhost:7274/api/Users/abc",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7274",
+          "path": [
+            "api",
+            "Users",
+            "abc"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get User By Id - No JWT",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": ""
+          }
+        ],
+        "url": {
+          "raw": "https://localhost:7274/api/Users/3b78a068-b804-4ea0-8b7e-086c35862d2a",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7274",
+          "path": [
+            "api",
+            "Users",
+            "3b78a068-b804-4ea0-8b7e-086c35862d2a"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get User By Id - Arabic",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{bearer_token_14yt}}"
+          },
+          {
+            "key": "Accept-Language",
+            "value": "ar"
+          }
+        ],
+        "url": {
+          "raw": "https://localhost:7274/api/Users/00000000-0000-0000-0000-000000000001",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7274",
+          "path": [
+            "api",
+            "Users",
+            "00000000-0000-0000-0000-000000000001"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get User By Id - English",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{bearer_token_14yt}}"
+          },
+          {
+            "key": "Accept-Language",
+            "value": "en"
+          }
+        ],
+        "url": {
+          "raw": "https://localhost:7274/api/Users/00000000-0000-0000-0000-000000000001",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7274",
+          "path": [
+            "api",
+            "Users",
+            "00000000-0000-0000-0000-000000000001"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get User By Id - Unsupported Language",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{bearer_token_14yt}}"
+          },
+          {
+            "key": "Accept-Language",
+            "value": "fr"
+          }
+        ],
+        "url": {
+          "raw": "https://localhost:7274/api/Users/00000000-0000-0000-0000-000000000001",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7274",
+          "path": [
+            "api",
+            "Users",
+            "00000000-0000-0000-0000-000000000001"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Account - Invalid User",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"userId\": \"00000000-0000-0000-0000-000000000001\",\r\n  \"currency\": 0,\r\n  \"accountType\": 0\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7274/api/Accounts",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7274",
+          "path": [
+            "api",
+            "Accounts"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Account - Empty UserId",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"userId\": \"00000000-0000-0000-0000-000000000000\",\r\n  \"currency\": 0,\r\n  \"accountType\": 0\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7274/api/Accounts",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7274",
+          "path": [
+            "api",
+            "Accounts"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Account - Non-existing User",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{json_web_token_08va}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"userId\": \"00000000-0000-0000-0000-000000000001\",\r\n  \"currency\": 0,\r\n  \"accountType\": 0\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7274/api/Accounts",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7274",
+          "path": [
+            "api",
+            "Accounts"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Account - Empty UserId - Arabic",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{bearer_token_0r3g}}"
+          },
+          {
+            "key": "Accept-Language",
+            "value": "ar"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"userId\": \"00000000-0000-0000-0000-000000000000\",\r\n  \"currency\": 0,\r\n  \"accountType\": 0\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7274/api/Accounts",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7274",
+          "path": [
+            "api",
+            "Accounts"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Account - Empty UserId - Default Language",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{json_web_token_08va}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"userId\": \"00000000-0000-0000-0000-000000000000\",\r\n  \"currency\": 0,\r\n  \"accountType\": 0\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7274/api/Accounts",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7274",
+          "path": [
+            "api",
+            "Accounts"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Transaction - Currency Spaces",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{bearer_token_0r3g}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"sourceAccountId\": \"f0855639-cafc-4e5c-b49d-a45dc493a4a5\",\r\n  \"destinationAccountId\": \"e4b5af5f-7452-457c-bf6b-b3732403b499\",\r\n  \"transactionType\": 1,\r\n  \"amount\": 100,\r\n  \"currency\": \" JOD \",\r\n  \"description\": \"Currency trim test\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7274/api/Transactions",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7274",
+          "path": [
+            "api",
+            "Transactions"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Audit Logs - Invalid Pagination",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://localhost:7274/api/AuditLogs?offset=-1&limit=0",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7274",
+          "path": [
+            "api",
+            "AuditLogs"
+          ],
+          "query": [
+            {
+              "key": "offset",
+              "value": "-1"
+            },
+            {
+              "key": "limit",
+              "value": "0"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Audit Logs - Large Limit",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://localhost:7274/api/AuditLogs?offset=0&limit=1000",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7274",
+          "path": [
+            "api",
+            "AuditLogs"
+          ],
+          "query": [
+            {
+              "key": "offset",
+              "value": "0"
+            },
+            {
+              "key": "limit",
+              "value": "1000"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Audit Log By Id - Existing",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept-Language",
+            "value": "ar"
+          }
+        ],
+        "url": {
+          "raw": "https://localhost:7274/api/AuditLogs/00000000-0000-0000-0000-000000000001",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7274",
+          "path": [
+            "api",
+            "AuditLogs",
+            "00000000-0000-0000-0000-000000000001"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Audit Log By Id - Not Found",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://localhost:7274/api/AuditLogs/77f6880b-8f39-4f30-9a79-3b44cb664283",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7274",
+          "path": [
+            "api",
+            "AuditLogs",
+            "77f6880b-8f39-4f30-9a79-3b44cb664283"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Audit Log By Id - Not Found - Arabic",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://localhost:7274/api/AuditLogs/77f6880b-8f39-4f30-9a79-3b44cb664283",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7274",
+          "path": [
+            "api",
+            "AuditLogs",
+            "77f6880b-8f39-4f30-9a79-3b44cb664283"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Transactions - Happy Path",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{bearer_token_0y33}}"
+          }
+        ],
+        "url": {
+          "raw": "https://localhost:7274/api/Transactions",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7274",
+          "path": [
+            "api",
+            "Transactions"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Transaction By Id - Existing",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{bearer_token_0y33}}"
+          }
+        ],
+        "url": {
+          "raw": "https://localhost:7274/api/Transactions/e2ab82c9-32a5-4003-bd62-82864b282a1e",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7274",
+          "path": [
+            "api",
+            "Transactions",
+            "e2ab82c9-32a5-4003-bd62-82864b282a1e"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Transaction By Id - Not Found",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{bearer_token_0y33}}"
+          }
+        ],
+        "url": {
+          "raw": "https://localhost:7274/api/Transactions/00000000-0000-0000-0000-000000000001?",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7274",
+          "path": [
+            "api",
+            "Transactions",
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "query": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Transaction - Transfer Happy Path",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{bearer_token_0y33}}"
+          },
+          {
+            "key": "Accept-Language",
+            "value": "en"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"sourceAccountId\": \"f0855639-cafc-4e5c-b49d-a45dc493a4a5\",\r\n  \"destinationAccountId\": \"e4b5af5f-7452-457c-bf6b-b3732403b499\",\r\n  \"transactionType\": 1,\r\n  \"amount\": 100,\r\n  \"currency\": \"JOD\",\r\n  \"description\": \"Test transfer\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7274/api/Transactions",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7274",
+          "path": [
+            "api",
+            "Transactions"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Audit Log - Transaction Created",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://localhost:7274/api/AuditLogs?offset=0&limit=100",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7274",
+          "path": [
+            "api",
+            "AuditLogs"
+          ],
+          "query": [
+            {
+              "key": "offset",
+              "value": "0"
+            },
+            {
+              "key": "limit",
+              "value": "100"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Transaction - Negative Amount",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{bearer_token_0y33}}"
+          },
+          {
+            "key": "Accept-Language",
+            "value": "en"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"sourceAccountId\": \"f0855639-cafc-4e5c-b49d-a45dc493a4a5\",\r\n  \"destinationAccountId\": \"e4b5af5f-7452-457c-bf6b-b3732403b499\",\r\n  \"transactionType\": 1,\r\n  \"amount\": -100,\r\n  \"currency\": \"JOD\",\r\n  \"description\": \"Negative amount test\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7274/api/Transactions",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7274",
+          "path": [
+            "api",
+            "Transactions"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Transaction - Zero Amount",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{bearer_token_0y33}}"
+          },
+          {
+            "key": "Accept-Language",
+            "value": "en"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"sourceAccountId\": \"f0855639-cafc-4e5c-b49d-a45dc493a4a5\",\r\n  \"destinationAccountId\": \"e4b5af5f-7452-457c-bf6b-b3732403b499\",\r\n  \"transactionType\": 1,\r\n  \"amount\": 0,\r\n  \"currency\": \"JOD\",\r\n  \"description\": \"Zero amount test\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7274/api/Transactions?",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7274",
+          "path": [
+            "api",
+            "Transactions"
+          ],
+          "query": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Transaction - Invalid Type",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{bearer_token_0y33}}"
+          },
+          {
+            "key": "Accept-Language",
+            "value": "en"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"sourceAccountId\": \"f0855639-cafc-4e5c-b49d-a45dc493a4a5\",\r\n  \"destinationAccountId\": \"e4b5af5f-7452-457c-bf6b-b3732403b499\",\r\n  \"transactionType\": 999,\r\n  \"amount\": 100,\r\n  \"currency\": \"JOD\",\r\n  \"description\": \"Invalid transaction type test\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7274/api/Transactions",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7274",
+          "path": [
+            "api",
+            "Transactions"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Transaction - Transfer Both Accounts Missing",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{bearer_token_0y33}}"
+          },
+          {
+            "key": "Accept-Language",
+            "value": "en"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"transactionType\": 1,\r\n  \"amount\": 100,\r\n  \"currency\": \"JOD\",\r\n  \"description\": \"Transfer accounts required test\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7274/api/Transactions",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7274",
+          "path": [
+            "api",
+            "Transactions"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Transaction - Same Accounts",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{bearer_token_0y33}}"
+          },
+          {
+            "key": "Accept-Language",
+            "value": "en"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"sourceAccountId\": \"e4b5af5f-7452-457c-bf6b-b3732403b499\",\r\n  \"destinationAccountId\": \"e4b5af5f-7452-457c-bf6b-b3732403b499\",\r\n  \"transactionType\": 1,\r\n  \"amount\": 100,\r\n  \"currency\": \"JOD\",\r\n  \"description\": \"Same accounts transfer test\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7274/api/Transactions",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7274",
+          "path": [
+            "api",
+            "Transactions"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Transaction - Deposit Missing Destination",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{bearer_token_0y33}}"
+          },
+          {
+            "key": "Accept-Language",
+            "value": "en"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"transactionType\": 2,\r\n  \"amount\": 100,\r\n  \"currency\": \"JOD\",\r\n  \"description\": \"Deposit destination required test\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7274/api/Transactions",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7274",
+          "path": [
+            "api",
+            "Transactions"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Transaction - Withdrawal Missing Source",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{bearer_token_0y33}}"
+          },
+          {
+            "key": "Accept-Language",
+            "value": "en"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"transactionType\": 3,\r\n  \"amount\": 100,\r\n  \"currency\": \"JOD\",\r\n  \"description\": \"Withdrawal source required test\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7274/api/Transactions",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7274",
+          "path": [
+            "api",
+            "Transactions"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Transaction - Currency Too Long",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{bearer_token_0y33}}"
+          },
+          {
+            "key": "Accept-Language",
+            "value": "en"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"sourceAccountId\": \"f0855639-cafc-4e5c-b49d-a45dc493a4a5\",\r\n  \"destinationAccountId\": \"e4b5af5f-7452-457c-bf6b-b3732403b499\",\r\n  \"transactionType\": 1,\r\n  \"amount\": 100,\r\n  \"currency\": \"JODX\",\r\n  \"description\": \"Long currency test\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7274/api/Transactions",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7274",
+          "path": [
+            "api",
+            "Transactions"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "bearer_token_14yt",
+      "secret": true
+    },
+    {
+      "key": "json_web_token_0g97",
+      "secret": true
+    },
+    {
+      "key": "bearer_token_18qx",
+      "secret": true
+    },
+    {
+      "key": "bearer_token_0r3g",
+      "secret": true
+    },
+    {
+      "key": "json_web_token_08va",
+      "secret": true
+    },
+    {
+      "key": "bearer_token_0y33",
+      "secret": true
+    },
+    {
+      "key": "json_web_token_01td",
+      "secret": true
+    }
+  ]
+}
